@@ -2,8 +2,8 @@ class BloodPressureReadingsController < ApplicationController
 
     get "/bloodpressurereadings" do
         if logged_in?
-            @bps = @current_user.blood_pressure_readings.order(created_at: :desc)
-            erb :"/blood_pressure_readings/index"
+            @bps = @current_user.blood_pressure_readings.order(date: :desc)
+            erb :"/bloodpressurereadings/index"
         else
             flash[:alert] = "You must be logged in to view your blood pressure readings."
             redirect to "/login"
@@ -12,7 +12,7 @@ class BloodPressureReadingsController < ApplicationController
 
     get "/bloodpressurereadings/new" do
         if logged_in?
-            erb :"/blood_pressure_readings/new"
+            erb :"/bloodpressurereadings/new"
         else
             flash[:alert] = "You must be logged in to submit a new blood pressure reading."
             redirect to "/login"
@@ -27,7 +27,7 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/:id/edit" do
         if logged_in?
             @bp = BloodPressureReading.find(params[:id])
-            erb :"/blood_pressure_readings/edit"
+            erb :"/bloodpressurereadings/edit"
         else
             flash[:alert] = "You must be logged in to edit any of your blood pressure readings."
             redirect to "/login"
@@ -38,7 +38,7 @@ class BloodPressureReadingsController < ApplicationController
         @bp = BloodPressureReading.find(params[:id])
         @bp.update(params)
         @bp.save
-        redirect to "/blood_pressure_readings/#{@bp.id}"
+        redirect to "/bloodpressurereadings/#{@bp.id}"
     end
 
     get "/bloodpressurereadings/:id" do
