@@ -1,8 +1,8 @@
 class FamilyMembersController < ApplicationController
 
-    get "/bloodpressurereadings" do
+    get "/familymembers" do
         if logged_in?
-            @bps = @current_user.blood_pressure_readings.order(created_at: :desc)
+            @all_family = @current_user.family_members
             erb :"/blood_pressure_readings/index"
         else
             flash[:alert] = "You must be logged in to view your blood pressure readings."
