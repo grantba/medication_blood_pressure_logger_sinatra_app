@@ -52,4 +52,26 @@ class UsersController < ApplicationController
         end
     end
 
+    get "/signup" do
+        if !logged_in?
+            erb :"/users/signup"      
+        else 
+            redirect to "/users/#{@current_user.username}"
+        end
+    end
+
+    post "/signup" do
+        if params[:name].empty? || params[:username].empty? || params[:password].empty?
+            flash[:error] = "The name, username, and password fields can not be empty. Please try again."
+            redirect to "/signup"
+        elsif User.find_by(username: params[:username])
+            flash[:error] = "That username has already been taken. Please try again."
+            redirect to "/signup"
+        else
+            user = User.create(params)
+            session[:user_id] = user.id
+            redirect to "/users/#{user.username}"
+        end
+    end
+    
 end
