@@ -41,4 +41,15 @@ class UsersController < ApplicationController
         flash[:message] = "Your information has been updated successfully!"
         redirect to "/users/#{@user.username}"
     end
+
+    get "/users/:slug" do
+        if logged_in?
+            @user = User.find_by_matched_slug(params[:slug])
+            erb :"/users/homepage"
+        else
+            flash[:error] = "You are not currently logged in to your account. Please log in or sign up if you have not created an account yet."
+            redirect to "/"
+        end
+    end
+
 end
