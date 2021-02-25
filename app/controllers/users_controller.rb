@@ -73,5 +73,27 @@ class UsersController < ApplicationController
             redirect to "/users/#{user.username}"
         end
     end
-    
+
+    get "/users/:slug/logout" do
+        if logged_in? && @current_user = User.find_by_matched_slug(params[:slug])
+            flash[:notice] = "Thanks for visiting today, #{@current_user.name}. See you again soon!"
+            session.destroy
+            redirect to "/"
+        else
+            flash[:error] = "You are not currently logged in to your account."
+            redirect to "/"
+        end
+    end
+
+    delete "/users/:slug" do
+        if logged_in? && @current_user = User.find_by_matched_slug(params[:slug])
+            flash[:notice] = "We're sad to see you go #{@current_user.name}, but thanks for visiting!"
+            @current_user.destroy
+            redirect to "/"
+        else
+            flash[:error] = "You must be logged in to delete your account. Please try again."
+            redirect to "/"
+        end   
+    end
+
 end
