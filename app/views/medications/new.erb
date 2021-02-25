@@ -1,0 +1,13 @@
+<form method='post' action='/prescriptions'>
+<p>Patient's Name: <input type="text" label="patient_name" name="patient[patient_name]"></p>
+<p>Patient's DOB: <input type="date" label="patient_dob" name="patient[dob]"></p>
+
+<p>Medication Name: <input type="text" label="medication1_name" name="patient[medications][][medication_name]"></p>
+<p>Prescribing Physician: <input type="text" label="medication1_physician" name="patient[medications][][prescribing_physician]"></p>
+<p>Medication Dose: <input type="text" label="medication1_dose" name="patient[medications][][dose]"> (include amount and measurement type such as mg or ml) </p> 
+<p>Medication Type: <input type="text" label="medication1_type" name="patient[medications][][type]"> (such as tablet or liquid) </p> 
+<p>Medication Route: <input type="text" label="medication1_route" name="patient[medications][][route]"> (such as oral or subcutaneous) </p>
+<p>Medication Time: <input type="text" label="medication1_time" name="patient[medications][][time]"> (please list times taken as well as how often such as once or twice a day) </p> 
+
+<input type="submit" value="Submit Medication">
+</form>
