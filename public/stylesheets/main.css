@@ -19,6 +19,12 @@
     line-height: 18px;
   }
 
+  .container img {
+    height: 50%;
+    width: 50%;
+    object-fit: contain;
+  }
+
   .wrapper {
     background: #fff;
     -moz-box-shadow: 0 0 10px rgba(0,0,0,.3);

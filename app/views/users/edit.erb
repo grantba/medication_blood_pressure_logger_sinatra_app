@@ -1,0 +1,11 @@
+<form method="post" action="/users/<%= @user.username %>">
+<input type="hidden" name="_method" value="patch">
+<p>Name: <input type="text" name="name" value="<%= @user.name %>"></p>
+<p>Username: <input type="text" name="username" value="<%= @user.username %>"></p>
+<p>Password: <input type="password" name="password"</p>
+<p>Email Address: <input type="email" name="email" value="<%= @user.email %>"></p>
+<p>Date of Birth: <input type="date" name="date_of_birth" value="<%= @user.date_of_birth %>"></p>
+<p>Address: <input type="text" name="address" value="<%= @user.address %>"></p>
+<p>Phone Number: <input type="tel" name="phone_number" value="<%= @user.phone_number %>"></p>
+<input type="submit" value="Edit Your Information">
+</form>
