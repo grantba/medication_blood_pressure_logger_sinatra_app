@@ -19,8 +19,9 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/familymembers/:slug" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            @bps = @user.family_members.bloodpressurereadings
-            if @bps == [] || @user.familymembers.include?(@current_user.id)
+            @family = @user.family_members.group_by(:name)
+            @bps = @user.family_members.blood_pressure_readings
+            if @family.include?(@current_user.id)
                 erb :"/bloodpressurereadings/familymembers/index"
             else
                 flash[:alert] = "You can only view yours or your family member's blood pressure readings."
