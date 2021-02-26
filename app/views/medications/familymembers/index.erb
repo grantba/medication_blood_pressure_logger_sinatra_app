@@ -1,6 +1,7 @@
 <% if @meds.any? %>
-<h3> <%= @user.name %>, your current medications are: </h3>
+<h3> <%= @user.name %>, your family members current medications are: </h3>
     <% @meds.each do |med| %>
+        <%= med.family_member.name %>
         <% if !med.name.blank? %>
             <h5><strong><u> <%= med.name %> </h5></strong></u>
             <% end %>

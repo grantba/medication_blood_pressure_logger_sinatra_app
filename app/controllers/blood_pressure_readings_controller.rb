@@ -19,7 +19,6 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/familymembers/:slug" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            @family = @user.family_members.group_by(:name)
             @bps = @user.family_members.blood_pressure_readings
             if @family.include?(@current_user.id)
                 erb :"/bloodpressurereadings/familymembers/index"
