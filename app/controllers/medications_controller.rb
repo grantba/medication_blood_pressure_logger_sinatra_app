@@ -1,10 +1,10 @@
 class MedicationsController < ApplicationController
 
-    get "/medications/:slug" do
+    get "/medications/users/:slug" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            @meds = @current_user.medications
-            if @user.id == @current_user.id && @meds == [] || @meds.each {|att| att.user_id == @current_user.id }
+            if @user.id == @current_user.id 
+                @meds = @current_user.medications
                 erb :"/medications/users/index"
             else
                 flash[:alert] = "You can only view yours or your family member's medications."
@@ -16,10 +16,11 @@ class MedicationsController < ApplicationController
         end
     end
 
-    get "/medications/familymembers" do
+    get "/medications/familymembers/:slug" do
         if logged_in?
-            @meds = @current_user.family_members.medications
-            if @user.id == @current_user.id && @meds == [] || @meds.each {|att| att.user_id == @current_user.id }
+            @user = User.find_by_matched_slug(params[:slug])
+            @meds = @user.family_members.medications
+            if @meds == [] || @user.familymembers.include?(@current_user.id)
                 erb :"/medications/familymembers/index"
             else
                 flash[:alert] = "You can only view yours or your family member's medications."
@@ -31,36 +32,60 @@ class MedicationsController < ApplicationController
         end
     end
 
-    get "/medications/:slug/new" do
+    get "/medications/users/:slug/new" do
+        @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            erb :"/medications/users/new"
+            if @user.id == @current_user.id 
+                erb :"/medications/users/new"
+            else
+                flash[:alert] = "You can only add new medications to yours or your familys member's medication log."
+                redirect to "/users/#{@current_user.username}"
+            end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
             redirect to "/login"
         end
     end
 
-    get "/medications/familymembers/new" do
+    get "/medications/familymembers/:slug/new" do
+        @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            erb :"/medications/familymembers/new"
+            if @user.id == @current_user.id 
+                erb :"/medications/familymembers/new"
+            else
+                flash[:alert] = "You can only add new medications to yours or your familys member's medication log."
+                redirect to "/users/#{@current_user.username}"
+            end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
             redirect to "/login"
         end
     end
 
-    post "/medications/users" do
-        @med = Medication.new(params)
-        @med.user_id = @current_user.id 
-        @med.save
-        redirect to "/medications/users/#{@med.id}"
+    post "/medications/users/:slug" do
+        @user = User.find_by_matched_slug(params[:slug])
+        if @user.id == @current_user.id
+            @med = Medication.new(params)
+            @med.user_id = @current_user.id 
+            @med.save
+            redirect to "/medications/users/#{@med.id}"
+        else
+            flash[:alert] = "You can only add new medications to yours or your familys member's medication log."
+            redirect to "/users/#{@current_user.username}"
+        end
     end
 
-    post "/medications/familymembers" do
-        @med = Medication.new(params)
-        @med.family_member_id = FamilyMember.find_by(id: params[:id])
-        @med.save
-        redirect to "/medications/familymembers/#{@med.id}"
+    post "/medications/familymembers/:slug" do
+        @user = User.find_by_matched_slug(params[:slug])
+        if @user.id == @current_user.id
+            @med = Medication.new(params)
+            @med.family_member_id = FamilyMember.find_by(id: params[:id])
+            @med.save
+            redirect to "/medications/familymembers/#{@med.id}"
+        else
+            flash[:alert] = "You can only add new medications to yours or your familys member's medication log."
+            redirect to "/users/#{@current_user.username}"
+        end
     end
 
     get "/medications/users/:id/edit" do
