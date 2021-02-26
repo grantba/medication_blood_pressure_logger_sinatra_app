@@ -4,7 +4,7 @@ class UsersController < ApplicationController
         if !logged_in?
             erb :"/users/login" 
         else 
-            redirect to "/users/#{@current_user.username}"          
+            redirect to "/users/#{current_user.username}"          
         end
     end
 
@@ -21,11 +21,11 @@ class UsersController < ApplicationController
     get "/users/:slug/edit" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            if @user.id == @current_user.id
+            if @user.id == current_user.id
                 erb :"/users/edit"
             else
                 flash[:error] = "You can only edit your own information."
-                redirect to "/users/#{@current_user.username}"
+                redirect to "/users/#{@user.username}"
             end
         else
             flash[:error] = "You are not currently logged in to your account. Please log in or sign up if you have not created an account yet."
@@ -34,25 +34,25 @@ class UsersController < ApplicationController
     end
 
     patch "/users/:slug" do
-        @user = User.find_by_matched_slug(params[:slug])
-        if @user.id == @current_user.id
-            @user.name = params[:name] unless params[:name].blank?
-            @user.username = params[:username] unless params[:username].blank?
-            @user.password = params[:password] unless params[:password].blank?
-            @user.save 
-            @user.update(date_of_birth: params[:date_of_birth], address: params[:address], phone_number: params[:phone_number], email: params[:email])
+        user = User.find_by_matched_slug(params[:slug])
+        if user.id == current_user.id
+            user.name = params[:name] unless params[:name].blank?
+            user.username = params[:username] unless params[:username].blank?
+            user.password = params[:password] unless params[:password].blank?
+            user.save 
+            user.update(date_of_birth: params[:date_of_birth], address: params[:address], phone_number: params[:phone_number], email: params[:email])
             flash[:message] = "Your information has been updated successfully!"
-            redirect to "/users/#{@user.username}"
+            redirect to "/users/#{user.username}"
         else
             flash[:error] = "You can only edit your own information."
-            redirect to "/users/#{@current_user.username}"
+            redirect to "/users/#{user.username}"
         end
     end
 
     get "/users/:slug" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            if @user.id == @current_user.id
+            if @user.id == current_user.id
                 erb :"/users/homepage"
             else
                 flash[:error] = "You can only view your own account information."
@@ -68,7 +68,8 @@ class UsersController < ApplicationController
         if !logged_in?
             erb :"/users/signup"      
         else 
-            redirect to "/users/#{@current_user.username}"
+            flash[:notice] = "You already have a user account."
+            redirect to "/users/#{current_user.username}"
         end
     end
 
@@ -88,7 +89,7 @@ class UsersController < ApplicationController
 
     get "/users/:slug/logout" do
         if logged_in?
-            flash[:notice] = "Thanks for visiting today, #{@current_user.name}. See you again soon!"
+            flash[:notice] = "Thanks for visiting today, #{current_user.name}. See you again soon!"
             session.clear
             redirect to "/"
         else
@@ -99,9 +100,10 @@ class UsersController < ApplicationController
 
     delete "/users/:slug" do
         if logged_in?
-            if @current_user = User.find_by_matched_slug(params[:slug])
-                flash[:notice] = "We're sad to see you go #{@current_user.name}, but thanks for visiting!"
-                @current_user.destroy
+            user = User.find_by_matched_slug(params[:slug])
+            if  user.id == current_user.id
+                flash[:notice] = "We're sad to see you go #{user.name}, but thanks for visiting!"
+                user.destroy
                 redirect to "/"
             else
                 flash[:error] = "You can only delete your own account."
