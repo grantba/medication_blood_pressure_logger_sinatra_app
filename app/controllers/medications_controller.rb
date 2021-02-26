@@ -1,13 +1,14 @@
 class MedicationsController < ApplicationController
 
-    get "/medications" do
+    get "/medications/:slug" do
         if logged_in?
-            @meds = @current_user.medications.order
-            if @meds.user_id == @current_user.id || @current_user.family_members.include?(@meds.family_member_id)
-                erb :"/medications/index"
+            @user = User.find_by_matched_slug(params[:slug])
+            @meds = @current_user.medications
+            if @user.id == @current_user.id && @meds == [] || @meds.each {|att| att.user_id == @current_user.id }
+                erb :"/medications/users/index"
             else
                 flash[:alert] = "You can only view yours or your family member's medications."
-                redirect to "/users/hompage"
+                redirect to "/users/#{@current_user.username}"
             end
         else
             flash[:alert] = "You must be logged in to view your medications."
@@ -15,9 +16,33 @@ class MedicationsController < ApplicationController
         end
     end
 
-    get "/medications/new" do
+    get "/medications/familymembers" do
         if logged_in?
-            erb :"/medications/new"
+            @meds = @current_user.family_members.medications
+            if @user.id == @current_user.id && @meds == [] || @meds.each {|att| att.user_id == @current_user.id }
+                erb :"/medications/familymembers/index"
+            else
+                flash[:alert] = "You can only view yours or your family member's medications."
+                redirect to "/users/#{@current_user.username}"
+            end
+        else
+            flash[:alert] = "You must be logged in to view your medications."
+            redirect to "/login"
+        end
+    end
+
+    get "/medications/:slug/new" do
+        if logged_in?
+            erb :"/medications/users/new"
+        else
+            flash[:alert] = "You must be logged in to submit a new medication."
+            redirect to "/login"
+        end
+    end
+
+    get "/medications/familymembers/new" do
+        if logged_in?
+            erb :"/medications/familymembers/new"
         else
             flash[:alert] = "You must be logged in to submit a new medication."
             redirect to "/login"
@@ -25,7 +50,9 @@ class MedicationsController < ApplicationController
     end
 
     post "/medications" do
-        @med = Medication.create(params)
+        @med = Medication.new(params)
+        @med.user_id = @current_user.id 
+        @med.save
         redirect to "/medications/#{@med.id}"
     end
 
@@ -58,7 +85,7 @@ class MedicationsController < ApplicationController
     get "/medications/:id" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
-            if @med.user_id == @current_user.id || @current_user.family_members.include?(@med.family_member_id)
+            if @med.user_id == @current_user.id 
                 erb :"/medications/show"
             else
                 flash[:alert] = "You can only view yours or your family member's medications."

@@ -1,0 +1,41 @@
+<h3> <%= @current_user.name %>, here is your medication: </h3>
+        <% if !@med.name.blank? %>
+            <h5><strong><u> <%= @med.name %> </h5></strong></u>
+            <% end %>
+        <% if !@med.dose.blank? %> 
+            <h5 style="text-indent: 40px"> Dose: <%= @med.dose %> <%= @med.form %>, <%= @med.route %></h5>
+            <% end %>
+        <% if !@med.time_to_be_taken.blank? %>
+            <h5 style="text-indent: 40px"> Time to be taken: <%= @med.time_to_be_taken %></h5>
+            <% end %>
+        <% if !@med.category.blank? %>
+            <h5 style="text-indent: 40px"> Category: <%= @med.category %> </h5>
+            <% end %>
+        <% if !@med.prescription_number.blank? %>
+            <h5 style="text-indent: 40px"> Prescription Number: <%= @med.prescription_number %> </h5>
+            <% end %>
+        <% if !@med.date_filled.blank? %>
+            <h5 style="text-indent: 40px"> Date Filled: <%= @med.date_filled %> </h5>
+            <% end %>
+            <% if !@med.refill_date.blank? %>
+            <h5 style="text-indent: 40px"> Refill Date: <%= @med.refill_date %> </h5>
+            <% end %>
+            <% if !@med.discard_or_expiration_date.blank? %>
+            <h5 style="text-indent: 40px"> Discard or Expiration Date: <%= @med.discard_or_expiration_date %> </h5>
+            <% end %>
+            <% if !@med.side_effects.blank? %>
+            <h5 style="text-indent: 40px"> Side Effects: <%= @med.side_effects %> </h5>
+            <% end %>
+        <% if !@med.notes.blank? %>
+            <h5 style="text-indent: 40px"> Notes: <%= @med.notes %> </h5>
+            <% end %>
+            <% if !@med.physician_id.blank? %>
+            <h5 style="text-indent: 40px"> Physician Name: <%= @med.physician.name %>   <a href='/physicians/#{@med.physician_id}/edit'>Edit Physician's Information</a></h5>
+            <% end %>
+            <% if !@med.family_member_id.blank? %>
+            <h5 style="text-indent: 40px"> Family Member's Name: <%= @med.family_member.name %>   <a href='/familymembers/#{@med.family_member_id}/edit'>Edit Family Member's Information</a></h5>
+            <% end %>       
+            <% if !@med.pharmacy_id.blank? %>
+            <h5 style="text-indent: 40px"> Pharmacy Name: <%= @med.pharmacy.name %>   <a href='/pharmacies/#{@med.pharmacy_id}/edit'>Edit Pharmacy's Information</a></h5>
+            <% end %>
+            <h5 style="text-indent: 40px"><a href='/@medications/#{@med.id}/edit'>Edit this @medication</a></h5>

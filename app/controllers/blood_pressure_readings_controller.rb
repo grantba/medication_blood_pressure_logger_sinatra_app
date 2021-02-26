@@ -2,12 +2,12 @@ class BloodPressureReadingsController < ApplicationController
 
     get "/bloodpressurereadings" do
         if logged_in?
-            @bps = @current_user.blood_pressure_readings.order(date: :desc)
-            if @bps.user_id == @current_user.id || @current_user.family_members.include?(@bps.family_member_id)
+            @bps = @current_user.blood_pressure_readings
+            if @bps == [] || @bps.each {|att| att.user_id == @current_user.id }
                 erb :"/bloodpressurereadings/index"
             else
                 flash[:alert] = "You can only view yours or your family member's blood pressure readings."
-                redirect to "/users/hompage"
+                redirect to "/users/#{@current_user.username}"
             end
         else
             flash[:alert] = "You must be logged in to view your blood pressure readings."

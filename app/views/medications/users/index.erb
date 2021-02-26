@@ -1,6 +1,6 @@
-<% if @medications.any? %>
+<% if @meds.any? %>
 <h3> <%= @current_user.name %>, your current medications are: </h3>
-    <% @medications.each do |med| %>
+    <% @meds.each do |med| %>
         <% if !med.name.blank? %>
             <h5><strong><u> <%= med.name %> </h5></strong></u>
             <% end %>
