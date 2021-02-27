@@ -1,0 +1,48 @@
+<% if logged_in? %>
+<br>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+
+
+<% if @bps.any? %>
+<h2> <%= current_user.name %>, your current blood pressure readings are: </h2>
+    <% @bps.each do |bp| %>
+        <% if !bp.date.blank? || !bp.time.blank? %>
+            <h3><strong><u> <a href="/bloodpressurereadings/<%= bp.id %>"><%= bp.date %> at <%= bp.time %> </a> </h3></strong></u>
+            <% end %>
+            <form style="float:right" action="/bloodpressurereadings/<%= bp.id %>/edit" method="get">
+            <input type="submit" value="Edit Blood Pressure Reading">
+            </form>
+            <form style="float:right" action="/bloodpressurereadings/<%= bp.id %>" method="post">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <input type="submit" value="Delete Blood Pressure Reading">
+            </form>
+        <% if !bp.systolic_reading.blank? || !bp.diastolic_reading.blank? %>
+            <h4 style="text-indent: 40px"> Blood Pressure Reading: <%= bp.systolic_reading %> / <%= bp.diastolic_reading %> </h4>
+            <% end %>
+        <% if !bp.pulse.blank? %>
+            <h4 style="text-indent: 40px"> Pulse: <%= bp.pulse %> </h4>
+            <% end %>
+        <% if !bp.device_used.blank? %>
+            <h4 style="text-indent: 40px"> Device Used: <%= bp.device_used %> </h4>
+            <% end %>
+        <% if !bp.site_used.blank? %>
+            <h4 style="text-indent: 40px"> Site Used: <%= bp.site_used %> </h4>
+            <% end %>
+        <% if !bp.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= bp.notes %> </h4>
+            <% end %>
+            <br>
+    <% end %>
+
+<% else %>
+    <h2> <%= current_user.name %>, you do not have any blood pressure readings logged at this time. </h2>
+<% end %>
+
+<br>
+<form style="float:left; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= current_user.username %>/new" method="get">
+  <input type="submit" value="Add New Blood Pressure Reading">
+</form>
+<br>

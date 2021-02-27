@@ -1,0 +1,20 @@
+<% if logged_in? %>
+<br>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+
+<form method="post" action="/bloodpressurereadings/<%= @bp.id %>">
+<input id="hidden" type="hidden" name="_method" value="patch">
+<p><label for="date">Date: </label><input type="text" name="date" value="<%= @bp.date %>"></p>
+<p><label for="time">Time: </label><input type="time" name="time" value= "<%= @bp.time %>"></p>
+<p><label for="systolic_reading">Systolic Reading: </label><input type="text" name="systolic_reading" value="<%= @bp.systolic_reading %>"> *top number</p>
+<p><label for="diastolic_reading">Diastolic Reading: </label><input type="text" name="diastolic_reading" value="<%= @bp.diastolic_reading %>"> *bottom number</p>
+<p><label for="pulse">Pulse: </label><input type="text" name="pulse" value="<%= @bp.pulse %>"> *beats per minute</p> 
+<p><label for="device_used">Device Used: </label><input type="text" name="device_used" value="<%= @bp.device_used %>"></p>
+<p><label for="site_used">Site Used: </label><input type="text" name="site_used" value="<%= @bp.site_used %>"></p>
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @bp.notes %>"></textarea></p> 
+<input type="submit" value="Edit Blood Pressure Reading">
+<input type="reset">
+</form>

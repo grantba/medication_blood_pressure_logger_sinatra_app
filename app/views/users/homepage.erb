@@ -1,7 +1,9 @@
 <h2>Welcome, <%= @user.name %>!</h2>
 <br>
 <h3>Which page would you like to visit?</h3>
+<br>
 <a href="/medications">Manage your Medication Log</a><br>
+<br>
 <a href="/bloodpressurereadings">Manage your Blood Pressure Log</a><br>
 <br><br>
 <% if logged_in? %>
