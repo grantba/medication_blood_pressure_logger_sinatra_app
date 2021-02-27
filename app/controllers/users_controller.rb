@@ -99,9 +99,14 @@ class UsersController < ApplicationController
     end
 
     delete "/users/:slug" do
+        session[:count] = 1 unless session[:count] == 2
         if logged_in?
             user = User.find_by_matched_slug(params[:slug])
-            if  user.id == current_user.id
+            if  user.id == current_user.id && session[:count] == 1
+                session[:count] =2
+                flash[:warning] = "Are you sure you want to delete your account?"
+                redirect to "/users/#{user.username}"
+            elsif user.id == current_user.id && session[:count] == 2
                 flash[:notice] = "We're sad to see you go #{user.name}, but thanks for visiting!"
                 user.destroy
                 redirect to "/"

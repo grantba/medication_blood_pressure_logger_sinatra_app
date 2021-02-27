@@ -38,4 +38,4 @@
             <% if !@med.pharmacy_id.blank? %>
             <h5 style="text-indent: 40px"> Pharmacy Name: <%= @med.pharmacy.name %>   <a href='/pharmacies/#{@med.pharmacy_id}/edit'>Edit Pharmacy's Information</a></h5>
             <% end %>
-            <h5 style="text-indent: 40px"><a href='/@medications/#{@med.id}/edit'>Edit this @medication</a></h5>
+            <h5 style="text-indent: 40px"><a href='/medications/users/<%= @med.id %>/edit'>Edit this medication</a></h5>

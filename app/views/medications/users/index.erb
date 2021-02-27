@@ -46,3 +46,10 @@
 <% else %>
     <h2> <%= @user.name %>, you do not have any medications logged at this time. </h2>
 <% end %>
+
+<% if logged_in? %>
+    <form style="float:right" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+<br>

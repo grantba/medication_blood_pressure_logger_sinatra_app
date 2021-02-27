@@ -14,7 +14,6 @@ class CreateMedications < ActiveRecord::Migration[5.2]
       t.text :side_effects
       t.text :notes
       t.integer :user_id
-      t.integer :family_member_id
       t.integer :physician_id
       t.integer :pharmacy_id
     end

@@ -1,12 +1,16 @@
-<h2>Welcome, <%= @current_user.name %>!</h2>
+<h2>Welcome, <%= @user.name %>!</h2>
 <br>
 <h3>Which page would you like to visit?</h3>
-<a href="/:slug/medications">Manage your Medication Log</a><br>
-<a href="/familymembers/medications">Manage your Family's Medication Log</a><br>
-<a href="/:slug/bloodpressurereadings">Manage your Blood Pressure Log</a><br>
-<a href="/familymembers/bloodpressurereadings">Manage your Family's Blood Pressure Log</a>
-<br><br><br>
-<form action="/users/<%= @current_user.username %>" method="post">
+<a href="/medications/users/<%= @user.username %>">Manage your Medication Log</a><br>
+<a href="/bloodpressurereadings/users/<%= @user.username %>">Manage your Blood Pressure Log</a><br>
+<br><br>
+<% if logged_in? %>
+  <form style="float:left; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>/logout" method="get">
+  <input type="submit" value="Logout">
+  </form>
+<% end %>
+<form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Account">
 </form>
+<br>

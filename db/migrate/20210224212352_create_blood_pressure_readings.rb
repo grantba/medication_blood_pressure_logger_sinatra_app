@@ -10,7 +10,6 @@ class CreateBloodPressureReadings < ActiveRecord::Migration[5.2]
       t.string :site_used
       t.text :notes
       t.integer :user_id
-      t.integer :family_member_id
     end
   end
 end
