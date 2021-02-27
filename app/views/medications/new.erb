@@ -1,4 +1,11 @@
-<form method="post" action="/medications/users">
+<% if logged_in? %>
+<br>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+
+<form method="post" action="/medications">
 <p><label for="name">Medication Name: </label><input type="text" name="name"></p>
 <p><label for="dose">Dose: </label><input type="text" name="dose"> *include amount and measurement type such as mg or ml</p>
 <p><label for="form">Form: </label><input type="text" name="form"> *such as liquid or tablets</p>
@@ -11,6 +18,6 @@
 <p><label for="discard_or_expiration_date">Discard or Expiration Date: </label><input type="date" name="discard_or_expiration_date"></p>
 <p><label for="side_effects">Side Effects: </label><textarea label="side_effects" name="side_effects"></textarea></p> 
 <p><label for="notes">Notes: </label><textarea label="notes" name="notes"></textarea></p> 
-<input type="submit" value="Submit your New Medication">
+<input type="submit" value="Submit New Medication">
 <input type="reset">
 </form>

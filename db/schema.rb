@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_25_234147) do
+ActiveRecord::Schema.define(version: 2021_02_24_212709) do
 
   create_table "blood_pressure_readings", force: :cascade do |t|
     t.string "date"
@@ -21,16 +21,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_234147) do
     t.text "device_used"
     t.string "site_used"
     t.text "notes"
-    t.integer "user_id"
-    t.integer "family_member_id"
-  end
-
-  create_table "family_members", force: :cascade do |t|
-    t.string "name"
-    t.string "date_of_birth"
-    t.text "address"
-    t.string "phone_number"
-    t.string "email"
     t.integer "user_id"
   end
 
@@ -48,7 +38,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_234147) do
     t.text "side_effects"
     t.text "notes"
     t.integer "user_id"
-    t.integer "family_member_id"
     t.integer "physician_id"
     t.integer "pharmacy_id"
   end
@@ -60,7 +49,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_234147) do
     t.string "website"
     t.text "notes"
     t.integer "user_id"
-    t.integer "family_member_id"
   end
 
   create_table "physicians", force: :cascade do |t|
@@ -70,7 +58,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_234147) do
     t.string "website"
     t.text "notes"
     t.integer "user_id"
-    t.integer "family_member_id"
   end
 
   create_table "users", force: :cascade do |t|

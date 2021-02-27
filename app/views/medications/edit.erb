@@ -1,0 +1,24 @@
+<% if logged_in? %>
+<br>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+
+<form method="post" action="/medications/<%= @med.id %>">
+<input id="hidden" type="hidden" name="_method" value="patch">
+<p><label for="name">Medication Name: </label><input type="text" name="name" value="<%= @med.name %>"></p>
+<p><label for="dose">Dose: </label><input type="text" name="dose" value= "<%= @med.dose %>"> *include amount and measurement type such as mg or ml</p>
+<p><label for="form">Form: </label><input type="text" name="form" value="<%= @med.form %>"> *such as liquid or tablets</p>
+<p><label for="route">Route: </label><input type="text" name="route" value="<%= @med.route %>"> *such as oral or subcutaneous</p>
+<p><label for="time_to_be_taken">Time(s) to be Taken: </label><input type="text" name="time_to_be_taken" value="<%= @med.time_to_be_taken %>"></p> 
+<p><label for="category">Category: </label><input type="text" name="category" value="<%= @med.category %>"> *such as prescription or over-the-counter</p>
+<p><label for="prescription_number">Prescription Number: </label><input type="text" name="prescription_number" value="<%= @med.prescription_number %>"></p>
+<p><label for="date_filled">Date Filled: </label><input type="date" name="date_filled" value="<%= @med.date_filled %>"></p>
+<p><label for="refill_date">Refill Date: </label><input type="date" name="refill_date" value="<%= @med.refill_date %>"></p>
+<p><label for="discard_or_expiration_date">Discard or Expiration Date: </label><input type="date" name="discard_or_expiration_date" value="<%= @med.discard_or_expiration_date %>"></p>
+<p><label for="side_effects">Side Effects: </label><textarea label="side_effects" name="side_effects" value="<%= @med.side_effects %>"></textarea></p> 
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @med.notes %>"></textarea></p> 
+<input type="submit" value="Edit Medication">
+<input type="reset">
+</form>

@@ -1,0 +1,73 @@
+<% if logged_in? %>
+<br>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
+    <input type="submit" value="Return to Homepage">
+    </form>
+<% end %>
+
+
+<% if @meds.any? %>
+<h2> <%= current_user.name %>, your current medications are: </h2>
+    <% @meds.each do |med| %>
+        <% if !med.name.blank? %>
+            <h3><strong><u> <a href="/medications/<%= med.id %>"><%= med.name %></a> </h3></strong></u>
+            <% end %>
+            <form style="float:right" action="/medications/<%= med.id %>/edit" method="get">
+            <input type="submit" value="Edit Medication">
+            </form>
+            <form style="float:right" action="/medications/<%= med.id %>" method="post">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <input type="submit" value="Delete Medication">
+            </form>
+        <% if !med.dose.blank? %> 
+            <h4 style="text-indent: 40px"> Dose: <%= med.dose %> <%= med.form %>, <%= med.route %></h4>
+            <% end %>
+        <% if !med.time_to_be_taken.blank? %>
+            <h4 style="text-indent: 40px"> Time to be taken: <%= med.time_to_be_taken %></h4>
+            <% end %>
+        <% if !med.category.blank? %>
+            <h4 style="text-indent: 40px"> Category: <%= med.category %> </h4>
+            <% end %>
+        <% if !med.prescription_number.blank? %>
+            <h4 style="text-indent: 40px"> Prescription Number: <%= med.prescription_number %> </h4>
+            <% end %>
+        <% if !med.date_filled.blank? %>
+            <h4 style="text-indent: 40px"> Date Filled: <%= med.date_filled %> </h4>
+            <% end %>
+            <% if !med.refill_date.blank? %>
+            <h4 style="text-indent: 40px"> Refill Date: <%= med.refill_date %> </h4>
+            <% end %>
+            <% if !med.discard_or_expiration_date.blank? %>
+            <h4 style="text-indent: 40px"> Discard or Expiration Date: <%= med.discard_or_expiration_date %> </h4>
+            <% end %>
+            <% if !med.side_effects.blank? %>
+            <h4 style="text-indent: 40px"> Side Effects: <%= med.side_effects %> </h4>
+            <% end %>
+        <% if !med.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= med.notes %> </h4>
+            <% end %>
+            <% if !med.physician_id.blank? %>
+            <h4 style="text-indent: 40px"> Physician Name: <%= med.physician.name %>
+            <h4 style="text-indent: 40px"><a href='/physicians/#{med.physician_id}'>View Physician's Information</a></h4>
+            <% end %>      
+            <% if !med.pharmacy_id.blank? %>
+            <h4 style="text-indent: 40px"> Pharmacy Name: <%= med.pharmacy.name %>
+            <h4 style="text-indent: 40px"><a href='/pharmacies/#{med.pharmacy_id}'>View Pharmacy's Information</a></h4>
+            <% end %>
+            <br>
+    <% end %>
+
+<% else %>
+    <h2> <%= current_user.name %>, you do not have any medications logged at this time. </h2>
+<% end %>
+
+<br>
+<% if @meds.any? %>
+<h3><center> ***To add a physician or pharmacy to a medication, click on the medication's name.*** </h3></center>
+<% end %>
+
+<br>
+<form style="float:left; margin:0px 15px 15px 0px" action="/medications/<%= current_user.username %>/new" method="get">
+  <input type="submit" value="Add New Medication">
+</form>
+<br>
