@@ -3,13 +3,16 @@
     <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
     <input type="submit" value="Return to Homepage">
     </form>
+    <form style="float:right; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
+    <input type="submit" value="Back to all BP Readings">
+    </form>
 <% end %>
 
 <h2> <%= current_user.name %>, here is your blood pressure reading's information: </h2>
         <% if !@bp.date.blank? || !@bp.time.blank? %>
             <h3><strong><u> <%= @bp.date %> at <%= @bp.time %> </h3></strong></u>
             <% end %>
-            <h4><a href='/bloodpressurereadings/<%= @bp.id %>/edit'>Edit Blood Pressure Reading</a></h4>
+            <h4><a href='/bloodpressurereadings/<%= @bp.id %>/edit'>Edit BP Reading</a></h4>
             <br>       
         <% if !@bp.systolic_reading.blank? || !@bp.diastolic_reading.blank? %> 
             <h4 style="text-indent: 40px"> Blood Pressure Reading: <%= @bp.systolic_reading %> / <%= @bp.diastolic_reading %> </h4>

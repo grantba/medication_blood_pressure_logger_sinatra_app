@@ -2,9 +2,9 @@
 <br>
 <h3>Which page would you like to visit?</h3>
 <br>
-<a href="/medications">Manage your Medication Log</a><br>
+<a href="/medications/<%= @user.username %>/all">Manage your Medication Log</a><br>
 <br>
-<a href="/bloodpressurereadings">Manage your Blood Pressure Log</a><br>
+<a href="/bloodpressurereadings/<%= @user.username %>/all">Manage your Blood Pressure Log</a><br>
 <br><br>
 <% if logged_in? %>
   <form style="float:left; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>/logout" method="get">
@@ -12,6 +12,9 @@
   </form>
 <% end %>
 
+<form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>/edit" method="get">
+  <input type="submit" value="Edit Account Information">
+</form>
 <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Account">

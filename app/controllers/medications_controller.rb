@@ -1,8 +1,9 @@
 class MedicationsController < ApplicationController
 
-    get "/medications" do 
+    get "/medications/:slug/all" do 
+        @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if current_user
+            if @user.id == current_user.id 
                 @meds = current_user.medications
                 erb :"/medications/index"
             else
@@ -22,7 +23,7 @@ class MedicationsController < ApplicationController
                 erb :"/medications/new"
             else
                 flash[:alert] = "You can only add new medications to your own medication log."
-                redirect to "/medications"
+                redirect to "/medications/#{@user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
@@ -30,16 +31,17 @@ class MedicationsController < ApplicationController
         end
     end
 
-    post "/medications" do
+    post "/medications/:slug" do
+        user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if current_user
-                @med = Medication.new(params)
-                @med.user_id = current_user.id 
-                @med.save
-                redirect to "/medications/#{@med.id}"
+            if user.id == current_user.id 
+                med = Medication.new(params.except("slug"))
+                med.user_id = current_user.id 
+                med.save
+                redirect to "/medications/#{med.id}"
             else
                 flash[:alert] = "You can only add new medications to your medication log."
-                redirect to "/medications"
+                redirect to "/medications/#{user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
@@ -54,7 +56,7 @@ class MedicationsController < ApplicationController
                 erb :"/medications/edit"
             else
                 flash[:alert] = "You can only edit the medications that belong to you."
-                redirect to "/medications"
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to edit any of your medications."
@@ -73,7 +75,7 @@ class MedicationsController < ApplicationController
             redirect to "/medications/#{med.id}"
         else
             flash[:alert] = "You can only edit the medications that belong to you."
-            redirect to "/medications"
+            redirect to "/medications/#{@user.username}/all"
         end
     end
 
@@ -93,14 +95,21 @@ class MedicationsController < ApplicationController
     end
 
     delete "/medications/:id" do
+        session[params[:id]] = 1 unless session[params[:id]] == 2
         if logged_in?
-            @med = Medication.find_by(id: params[:id])
-            if @med.user_id == current_user.id 
-                @med.destroy
-                redirect to "/medications"
+            med = Medication.find_by(id: params[:id])
+            if med.user_id == current_user.id && session[params[:id]] == 1
+                session[params[:id]] = 2
+                flash[:warning] = "Are you sure you want to delete the medication, #{med.name}?" 
+                redirect to "/medications/#{current_user.username}/all"
+            elsif med.user_id == current_user.id && session[params[:id]] == 2
+                med.destroy
+                session[params[:id]] = 0
+                flash[:notice] = "#{med.name} has been deleted per your request."
+                redirect to "/medications/#{current_user.username}/all"
             else
                 flash[:alert] = "You can only delete your own medications."
-                redirect to "/medications"
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to delete any of your medications."

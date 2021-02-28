@@ -12,10 +12,10 @@
         <% if !med.name.blank? %>
             <h3><strong><u> <a href="/medications/<%= med.id %>"><%= med.name %></a> </h3></strong></u>
             <% end %>
-            <form style="float:right" action="/medications/<%= med.id %>/edit" method="get">
+            <form style="float:right; margin:0px 15px 15px 0px" action="/medications/<%= med.id %>/edit" method="get">
             <input type="submit" value="Edit Medication">
             </form>
-            <form style="float:right" action="/medications/<%= med.id %>" method="post">
+            <form style="float:right; margin:0px 15px 15px 0px" action="/medications/<%= med.id %>" method="post">
             <input id="hidden" type="hidden" name="_method" value="delete">
             <input type="submit" value="Delete Medication">
             </form>
@@ -63,6 +63,7 @@
 
 <br>
 <% if @meds.any? %>
+<br><br>
 <h3><center> ***To add a physician or pharmacy to a medication, click on the medication's name.*** </h3></center>
 <% end %>
 

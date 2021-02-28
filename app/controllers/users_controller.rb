@@ -89,9 +89,15 @@ class UsersController < ApplicationController
 
     get "/users/:slug/logout" do
         if logged_in?
-            flash[:notice] = "Thanks for visiting today, #{current_user.name}. See you again soon!"
+            user = User.find_by_matched_slug(params[:slug])
+            if user.id == current_user.id
+            flash[:notice] = "Thanks for visiting today, #{user.name}. See you again soon!"
             session.clear
             redirect to "/"
+            else
+                flash[:notice] = "You can only log out of your own account."
+                redirect to "/users/#{user.username}"
+            end
         else
             flash[:error] = "You are not currently logged in to your account."
             redirect to "/"
@@ -103,7 +109,7 @@ class UsersController < ApplicationController
         if logged_in?
             user = User.find_by_matched_slug(params[:slug])
             if  user.id == current_user.id && session[:count] == 1
-                session[:count] =2
+                session[:count] = 2
                 flash[:warning] = "Are you sure you want to delete your account?"
                 redirect to "/users/#{user.username}"
             elsif user.id == current_user.id && session[:count] == 2

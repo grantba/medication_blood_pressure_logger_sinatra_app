@@ -12,12 +12,12 @@
         <% if !bp.date.blank? || !bp.time.blank? %>
             <h3><strong><u> <a href="/bloodpressurereadings/<%= bp.id %>"><%= bp.date %> at <%= bp.time %> </a> </h3></strong></u>
             <% end %>
-            <form style="float:right" action="/bloodpressurereadings/<%= bp.id %>/edit" method="get">
-            <input type="submit" value="Edit Blood Pressure Reading">
+            <form style="float:right; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= bp.id %>/edit" method="get">
+            <input type="submit" value="Edit BP Reading">
             </form>
-            <form style="float:right" action="/bloodpressurereadings/<%= bp.id %>" method="post">
+            <form style="float:right; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= bp.id %>" method="post">
             <input id="hidden" type="hidden" name="_method" value="delete">
-            <input type="submit" value="Delete Blood Pressure Reading">
+            <input type="submit" value="Delete BP Reading">
             </form>
         <% if !bp.systolic_reading.blank? || !bp.diastolic_reading.blank? %>
             <h4 style="text-indent: 40px"> Blood Pressure Reading: <%= bp.systolic_reading %> / <%= bp.diastolic_reading %> </h4>
@@ -43,6 +43,6 @@
 
 <br>
 <form style="float:left; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= current_user.username %>/new" method="get">
-  <input type="submit" value="Add New Blood Pressure Reading">
+  <input type="submit" value="Add New BP Reading">
 </form>
 <br>

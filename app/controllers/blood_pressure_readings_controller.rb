@@ -1,13 +1,14 @@
 class BloodPressureReadingsController < ApplicationController
 
-    get "/bloodpressurereadings" do 
+    get "/bloodpressurereadings/:slug/all" do 
+        @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if current_user
+            if @user.id == current_user.id 
                 @bps = current_user.blood_pressure_readings
                 erb :"/bloodpressurereadings/index"
             else
                 flash[:alert] = "You can only view your own blood pressure readings."
-                redirect to "/users/#{current_user.username}"
+                redirect to "/users/#{@user.username}"
             end
         else
             flash[:alert] = "You must be logged in to view your blood pressure readings."
@@ -22,7 +23,7 @@ class BloodPressureReadingsController < ApplicationController
                 erb :"/bloodpressurereadings/new"
             else
                 flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure readings log."
-                redirect to "/bloodpressurereadings"
+                redirect to "/bloodpressurereadings/#{@user.username}"
             end
         else
             flash[:alert] = "You must be logged in to submit a new blood pressure reading."
@@ -30,16 +31,17 @@ class BloodPressureReadingsController < ApplicationController
         end
     end
 
-    post "/bloodpressurereadings" do
+    post "/bloodpressurereadings/:slug" do
+        user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if current_user
-                @bp = BloodPressureReading.new(params)
-                @bp.user_id = current_user.id 
-                @bp.save
-                redirect to "/bloodpressurereadings/#{@bp.id}"
+            if user.id == current_user.id 
+                bp = BloodPressureReading.new(params.except("slug"))
+                bp.user_id = current_user.id 
+                bp.save
+                redirect to "/bloodpressurereadings/#{bp.id}"
             else
                 flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure reading log."
-                redirect to "/bloodpressurereadings"
+                redirect to "/bloodpressurereadings/#{user.username}"
             end
         else
             flash[:alert] = "You must be logged in to submit a new blood pressure reading."
@@ -54,7 +56,7 @@ class BloodPressureReadingsController < ApplicationController
                 erb :"/bloodpressurereadings/edit"
             else
                 flash[:alert] = "You can only edit the blood pressure readings that belong to you."
-                redirect to "/bloodpressurereadings"
+                redirect to "/bloodpressurereadings/#{current_user.username}"
             end
         else
             flash[:alert] = "You must be logged in to edit any of your blood pressure readings."
@@ -72,7 +74,7 @@ class BloodPressureReadingsController < ApplicationController
             redirect to "/bloodpressurereadings/#{bp.id}"
         else
             flash[:alert] = "You can only edit the blood pressure readings that belong to you."
-            redirect to "/bloodpressurereadings"
+            redirect to "/bloodpressurereadings/#{current_user.username}"
         end
     end
 
@@ -92,14 +94,21 @@ class BloodPressureReadingsController < ApplicationController
     end
 
     delete "/bloodpressurereadings/:id" do
+        session[params[:id]] = 1 unless session[params[:id]] == 2
         if logged_in?
-            @bp = BloodPressureReading.find_by(id: params[:id])
-            if @bp.user_id == current_user.id 
-                @bp.destroy
-                redirect to "/bloodpressurereadings"
+            bp = BloodPressureReading.find_by(id: params[:id])
+            if bp.user_id == current_user.id && session[params[:id]] == 1
+                session[params[:id]] = 2
+                flash[:warning] = "Are you sure you want to delete the blood pressure reading from #{bp.date}?" 
+                redirect to "/bloodpressurereadings/#{current_user.username}/all"
+            elsif bp.user_id == current_user.id && session[params[:id]] == 2
+                bp.destroy
+                session[params[:id]] = 0
+                flash[:notice] = "Your blood pressure reading from #{bp.date} has been deleted per your request."
+                redirect to "/bloodpressurereadings/#{current_user.username}/all"
             else
                 flash[:alert] = "You can only delete your own blood pressure readings."
-                redirect to "/bloodpressurereadings"
+                redirect to "/bloodpressurereadings/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to delete any of your blood pressure readings."
