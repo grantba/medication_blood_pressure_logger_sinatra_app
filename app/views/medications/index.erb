@@ -32,22 +32,22 @@
         <% if !med.date_filled.blank? %>
             <h4 style="text-indent: 40px"> Date Filled: <%= med.date_filled %> </h4>
             <% end %>
-            <% if !med.refill_date.blank? %>
+        <% if !med.refill_date.blank? %>
             <h4 style="text-indent: 40px"> Refill Date: <%= med.refill_date %> </h4>
             <% end %>
-            <% if !med.discard_or_expiration_date.blank? %>
+        <% if !med.discard_or_expiration_date.blank? %>
             <h4 style="text-indent: 40px"> Discard or Expiration Date: <%= med.discard_or_expiration_date %> </h4>
             <% end %>
-            <% if !med.side_effects.blank? %>
+        <% if !med.side_effects.blank? %>
             <h4 style="text-indent: 40px"> Side Effects: <%= med.side_effects %> </h4>
             <% end %>
         <% if !med.notes.blank? %>
             <h4 style="text-indent: 40px"> Notes: <%= med.notes %> </h4>
             <% end %>
-            <% if !med.physician_id.blank? %>
+        <% if !med.physician_id.blank? %>
             <h4 style="text-indent: 40px"> Medication's Physician: <a href="/physicians/<%= med.physician_id %>"><%= med.physician.name %></a></h4>
             <% end %>      
-            <% if !med.pharmacy_id.blank? %>
+        <% if !med.pharmacy_id.blank? %>
             <h4 style="text-indent: 40px"> Medication's Pharmacy: <a href="/pharmacies/<%= med.pharmacy_id %>"><%= med.pharmacy.name %></a></h4>
             <% end %>
             <br>

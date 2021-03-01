@@ -17,10 +17,18 @@
             <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/<%= @med.id %>/new" method="get">
             <input type="submit" value="Add a Physician to this Medication">
             </form>
+            <% else %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/<%= @med.id %>/new" method="get">
+            <input type="submit" value="Change Physician for this Medication">
+            </form>
             <% end %>
             <% if @med.pharmacy_id.blank? %>
             <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/<%= @med.id %>/new" method="get">
             <input type="submit" value="Add a Pharmacy to this Medication">
+            </form>
+            <% else %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/<%= @med.id %>/new" method="get">
+            <input type="submit" value="Change Pharmacy for this Medication">
             </form>
             <% end %>
         <% if !@med.dose.blank? %> 

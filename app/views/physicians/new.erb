@@ -9,7 +9,7 @@
 <br><br>
 
 <form method="post" action="/physicians/<%= @med.id %>">
-<p>Physician information for your medication, <%= @med.name %>.</p>
+<p>Add a new physician to your medication, <%= @med.name %>.</p>
 <p><label for="name">Name: </label><input type="text" name="name"></p>
 <p><label for="address">Office Address: </label><input type="text" name="address"></p>
 <p><label for="phone_number">Office Phone Number: </label><input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone_number" placeholder="123-456-7890"></p>
@@ -18,4 +18,18 @@
 <input type="submit" value="Submit New Physician">
 <input type="reset">
 </form>
+<br>
+<br>
+<% if @physicians.any? %>
+<P>If you'd like to add an existing physician to your medication, please choose the correct physician from the list below.</p>
+<% @physicians.each do |p| %>
+    <form method="post" action="/physicians/<%= @med.id %>">
+    <br>
+    <p>Physician: <%= p.name %></p>
+    <p><label for="id"></label><input type="hidden" name="physician_id" value="<%= p.id %>"></p>
+    <input type="submit" value="Submit Existing Physician">
+    </form>
+    <% end %>
+<% end %>
+
 

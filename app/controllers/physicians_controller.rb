@@ -19,6 +19,7 @@ class PhysiciansController < ApplicationController
     get "/physicians/:id/new" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
+            @physicians = Physician.select {|physician| physician.user_id == current_user.id}
             if @med.user_id == current_user.id 
                 erb :"/physicians/new"
             else
@@ -35,11 +36,16 @@ class PhysiciansController < ApplicationController
         if logged_in?
             @med = Medication.find_by(id: params[:id])
             if @med.user_id == current_user.id 
-                physician = Physician.new(params.except("id"))
-                physician.user_id = current_user.id
-                physician.save
-                @med.physician_id = physician.id
-                @med.save
+                if physician = Physician.find_by(id: params[:physician_id])
+                    @med.physician_id = physician.id
+                    @med.save
+                else
+                    physician = Physician.new(params.except("id", "physician_id"))
+                    physician.user_id = current_user.id
+                    physician.save
+                    @med.physician_id = physician.id
+                    @med.save
+                end
                 redirect to "/physicians/#{physician.id}"
             else
                 flash[:alert] = "You can only add new physicians to your own physician's log."
@@ -71,8 +77,7 @@ class PhysiciansController < ApplicationController
         if physician.user_id == current_user.id 
             physician.notes = params[:notes] unless params[:notes].blank?
             physician.save 
-            physician.update(name: params[:name], address: params[:address], phone_number: params[:phone_number], website: params[:website]) 
-            flash[:message] = "Your physician's information has been updated successfully!"
+            physician.update(name: params[:name], address: params[:address], phone_number: params[:phone_number], website: params[:website])
             redirect to "/physicians/#{physician.id}"
         else
             flash[:alert] = "You can only edit the physician information that belongs to you."
@@ -106,9 +111,13 @@ class PhysiciansController < ApplicationController
                 flash[:warning] = "Are you sure you want to delete your physician, #{physician.name}, from your account?" 
                 redirect to "/physicians/#{current_user.username}/all"
             elsif physician.user_id == current_user.id && session[physician: number] == 2
-                @meds = Medication.where()
+                @meds = Medication.select {|med| med.physician_id == physician.id}
+                @meds.each do |med| 
+                    med.physician_id = ""
+                    med.save
+                end
                 physician.destroy
-                flash[:notice] = "#{physician.name} has been deleted from your account."
+                flash[:notice] = "#{physician.name} has been deleted from your account and removed from any associated medications."
                 redirect to "/physicians/#{current_user.username}/all"
             else
                 flash[:alert] = "You can only delete your own physicians from your account."
