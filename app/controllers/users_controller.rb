@@ -68,7 +68,7 @@ class UsersController < ApplicationController
         if !logged_in?
             erb :"/users/signup"      
         else 
-            flash[:notice] = "You already have a user account."
+            flash[:notice] = "You are already logged in to your account."
             redirect to "/users/#{current_user.username}"
         end
     end

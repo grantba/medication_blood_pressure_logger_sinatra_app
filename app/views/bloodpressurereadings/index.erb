@@ -1,10 +1,8 @@
-<% if logged_in? %>
 <br>
-    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
-    <input type="submit" value="Return to Homepage">
-    </form>
-<% end %>
-
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
 
 <% if @bps.any? %>
 <h2> <%= current_user.name %>, your current blood pressure readings are: </h2>

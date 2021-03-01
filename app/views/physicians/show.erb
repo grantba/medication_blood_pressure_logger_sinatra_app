@@ -1,0 +1,33 @@
+<br>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+<form action="/physicians/<%= current_user.username %>/all" method="get">
+<input type="submit" value="&#8678; Back to all Physicians">
+</form>
+<br><br>
+
+<h2> <%= current_user.name %>, here is your physician's information: </h2>
+        <% if !@physician.name.blank? %>
+            <h3><strong> <%= @physician.name %> </h3></strong>
+            <% end %>
+            <h4><a href="/physicians/<%= @physician.id %>/edit">Edit Physician's Information</a></h4><br>
+        <% if !@physician.address.blank? %> 
+            <h4 style="text-indent: 40px"> Office Address: <%= @physician.address %> </h4>
+            <% end %>
+        <% if !@physician.phone_number.blank? %>
+            <h4 style="text-indent: 40px"> Office Phone Number: <%= @physician.phone_number %></h4>
+            <% end %>
+        <% if !@physician.website.blank? %>
+            <h4 style="text-indent: 40px"> Website: <%= @physician.website %> </h4>
+            <% end %>
+        <% if !@physician.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= @physician.notes %> </h4>
+            <% end %>
+            <br>
+            <h4> This physician's associated medication(s): </h4>
+        <% @meds.each do |med| %>
+            <h4 style="text-indent: 40px"><a href="/medications/<%= med.id %>"><%= med.name %></a></h4>
+        <% end %>
+        

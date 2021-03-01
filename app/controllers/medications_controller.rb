@@ -75,7 +75,7 @@ class MedicationsController < ApplicationController
             redirect to "/medications/#{med.id}"
         else
             flash[:alert] = "You can only edit the medications that belong to you."
-            redirect to "/medications/#{@user.username}/all"
+            redirect to "/medications/#{current_user.username}/all"
         end
     end
 
@@ -95,17 +95,17 @@ class MedicationsController < ApplicationController
     end
 
     delete "/medications/:id" do
-        session[params[:id]] = 1 unless session[params[:id]] == 2
+        number = params[:id]
+        session[med: number] = 1 unless session[med: number] == 2
         if logged_in?
             med = Medication.find_by(id: params[:id])
-            if med.user_id == current_user.id && session[params[:id]] == 1
-                session[params[:id]] = 2
-                flash[:warning] = "Are you sure you want to delete the medication, #{med.name}?" 
+            if med.user_id == current_user.id && session[med: number] == 1
+            session[med: number] = 2
+                flash[:warning] = "Are you sure you want to delete #{med.name} from your account?" 
                 redirect to "/medications/#{current_user.username}/all"
-            elsif med.user_id == current_user.id && session[params[:id]] == 2
+            elsif med.user_id == current_user.id && session[med: number] == 2
                 med.destroy
-                session[params[:id]] = 0
-                flash[:notice] = "#{med.name} has been deleted per your request."
+                flash[:notice] = "#{med.name} has been deleted from your account."
                 redirect to "/medications/#{current_user.username}/all"
             else
                 flash[:alert] = "You can only delete your own medications."

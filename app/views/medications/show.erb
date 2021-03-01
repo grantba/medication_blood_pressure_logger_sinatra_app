@@ -1,25 +1,28 @@
-<% if logged_in? %>
 <br>
-    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
-    <input type="submit" value="Return to Homepage">
-    </form>
-    <form style="float:right; margin:0px 15px 15px 0px" action="/medications/<%= current_user.username %>/all" method="get">
-    <input type="submit" value="Back to all Medications">
-    </form>
-<% end %>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+<form action="/medications/<%= current_user.username %>/all" method="get">
+<input type="submit" value="&#8678; Back to all Medications">
+</form>
+<br><br>
 
 <h2> <%= current_user.name %>, here is your medication's information: </h2>
         <% if !@med.name.blank? %>
-            <h3><strong><u> <%= @med.name %> </h3></strong></u>
+            <h3><strong> <%= @med.name %> </h3></strong>
             <% end %>
-            <h4><a href='/medications/<%= @med.id %>/edit'>Edit Medication</a></h4>
-            <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/#{med.id}/new" method="get">
+            <h4><a href='/medications/<%= @med.id %>/edit'>Edit Medication</a></h4><br>
+            <% if @med.physician_id.blank? %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/<%= @med.id %>/new" method="get">
             <input type="submit" value="Add a Physician to this Medication">
             </form>
-            <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/#{med.id}/new" method="get">
+            <% end %>
+            <% if @med.pharmacy_id.blank? %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/<%= @med.id %>/new" method="get">
             <input type="submit" value="Add a Pharmacy to this Medication">
             </form>
-            <br>
+            <% end %>
         <% if !@med.dose.blank? %> 
             <h4 style="text-indent: 40px"> Dose: <%= @med.dose %> <%= @med.form %>, <%= @med.route %></h4>
             <% end %>
@@ -47,12 +50,17 @@
         <% if !@med.notes.blank? %>
             <h4 style="text-indent: 40px"> Notes: <%= @med.notes %> </h4>
             <% end %>
+            <br>
         <% if !@med.physician_id.blank? %>
-            <h4 style="text-indent: 40px"> Physician Name: <%= @med.physician.name %>   <a href="/physicians/#{@med.physician_id}/edit">Edit Physician's Information</a></h4>
-            <% end %>      
+            <h4> Medication's Physician: <%= @med.physician.name %></h4>  
+            <h4><a href="/physicians/<%= @med.physician_id %>/edit">Edit Physician's Information</a></h4>
+            <% end %>     
+            <br> 
         <% if !@med.pharmacy_id.blank? %>
-            <h4 style="text-indent: 40px"> Pharmacy Name: <%= @med.pharmacy.name %>   <a href="/pharmacies/#{@med.pharmacy_id}/edit">Edit Pharmacy's Information</a></h4>
-        <% end %>
+            <h4>Medication's Pharmacy: <%= @med.pharmacy.name %></h4>  
+            <h4><a href="/pharmacies/<%= @med.pharmacy_id %>/edit">Edit Pharmacy's Information</a></h4>
+            <% end %> 
+    
 
         
 

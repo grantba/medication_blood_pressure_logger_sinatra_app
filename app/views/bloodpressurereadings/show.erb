@@ -1,19 +1,18 @@
-<% if logged_in? %>
 <br>
-    <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= current_user.username %>" method="get">
-    <input type="submit" value="Return to Homepage">
-    </form>
-    <form style="float:right; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
-    <input type="submit" value="Back to all BP Readings">
-    </form>
-<% end %>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+<form action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
+<input type="submit" value="&#8678; Back to all BP Readings">
+</form>
+<br><br>
 
 <h2> <%= current_user.name %>, here is your blood pressure reading's information: </h2>
         <% if !@bp.date.blank? || !@bp.time.blank? %>
-            <h3><strong><u> <%= @bp.date %> at <%= @bp.time %> </h3></strong></u>
+            <h3><strong> <%= @bp.date %> at <%= @bp.time %> </h3></strong>
             <% end %>
-            <h4><a href='/bloodpressurereadings/<%= @bp.id %>/edit'>Edit BP Reading</a></h4>
-            <br>       
+            <h4><a href='/bloodpressurereadings/<%= @bp.id %>/edit'>Edit BP Reading</a></h4><br>
         <% if !@bp.systolic_reading.blank? || !@bp.diastolic_reading.blank? %> 
             <h4 style="text-indent: 40px"> Blood Pressure Reading: <%= @bp.systolic_reading %> / <%= @bp.diastolic_reading %> </h4>
             <% end %>

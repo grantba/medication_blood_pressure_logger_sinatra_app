@@ -1,5 +1,5 @@
 class Pharmacy < ActiveRecord::Base
 
-    has_and_belongs_to_many :user
-    has_many :medications
+    belongs_to :user
+    has_many :medications, through: :users
 end

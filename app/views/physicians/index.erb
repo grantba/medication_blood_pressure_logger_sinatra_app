@@ -1,0 +1,38 @@
+<br>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+
+<% if @physicians.any? %>
+<h2> <%= current_user.name %>, your current physicians are: </h2>
+    <% @physicians.each do |md| %>
+        <% if !md.name.blank? %>
+            <h3><strong><u> <a href="/physicians/<%= md.id %>"><%= md.name %></a> </h3></strong></u>
+            <% end %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/<%= md.id %>/edit" method="get">
+            <input type="submit" value="Edit Physician's Information">
+            </form>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/physicians/<%= md.id %>" method="post">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <input type="submit" value="Delete Physician">
+            </form>
+        <% if !md.address.blank? %>
+            <h4 style="text-indent: 40px"> Office Address: <%= md.address %> </h4>
+            <% end %>
+        <% if !md.phone_number.blank? %>
+            <h4 style="text-indent: 40px"> Office Phone Number: <%= md.phone_number %> </h4>
+            <% end %>
+        <% if !md.website.blank? %>
+            <h4 style="text-indent: 40px"> Website: <%= md.website %> </h4>
+            <% end %>
+        <% if !md.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= md.notes %> </h4>
+            <% end %>
+            <br>
+    <% end %>
+
+<% else %>
+    <h2> <%= current_user.name %>, you do not have any physicians logged at this time. </h2>
+<% end %>
+

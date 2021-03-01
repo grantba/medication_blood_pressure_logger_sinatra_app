@@ -2,9 +2,10 @@
 <br>
 <h3>Which page would you like to visit?</h3>
 <br>
-<a href="/medications/<%= @user.username %>/all">Manage your Medication Log</a><br>
-<br>
-<a href="/bloodpressurereadings/<%= @user.username %>/all">Manage your Blood Pressure Log</a><br>
+<a style="text-decoration: none" href="/medications/<%= @user.username %>/all">&#9830; Manage your Medication Log</a><br><br>
+<a style="margin-left: 40px; text-decoration: none;" href="/physicians/<%= @user.username %>/all">&#9830; Physician Information</a><br><br>
+<a style="margin-left: 40px; text-decoration: none;" href="/pharmacies/<%= @user.username %>/all">&#9830; Pharmacy Information</a><br><br>
+<a style="text-decoration: none" href="/bloodpressurereadings/<%= @user.username %>/all">&#9830; Manage your Blood Pressure Log</a>
 <br><br>
 <% if logged_in? %>
   <form style="float:left; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>/logout" method="get">

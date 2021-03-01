@@ -94,17 +94,17 @@ class BloodPressureReadingsController < ApplicationController
     end
 
     delete "/bloodpressurereadings/:id" do
-        session[params[:id]] = 1 unless session[params[:id]] == 2
+        number = params[:id]
+        session[bp: number] = 1 unless session[bp: number] == 2
         if logged_in?
             bp = BloodPressureReading.find_by(id: params[:id])
-            if bp.user_id == current_user.id && session[params[:id]] == 1
-                session[params[:id]] = 2
-                flash[:warning] = "Are you sure you want to delete the blood pressure reading from #{bp.date}?" 
+            if bp.user_id == current_user.id && session[bp: number] == 1
+                session[bp: number] = 2
+                flash[:warning] = "Are you sure you want to delete the blood pressure reading, #{bp.systolic_reading} / #{bp.diastolic_reading} from #{bp.date}?" 
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"
-            elsif bp.user_id == current_user.id && session[params[:id]] == 2
+            elsif bp.user_id == current_user.id && session[bp: number] == 2
                 bp.destroy
-                session[params[:id]] = 0
-                flash[:notice] = "Your blood pressure reading from #{bp.date} has been deleted per your request."
+                flash[:notice] = "Your blood pressure reading, #{bp.systolic_reading} / #{bp.diastolic_reading} from #{bp.date}, has been deleted from your account."
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"
             else
                 flash[:alert] = "You can only delete your own blood pressure readings."
