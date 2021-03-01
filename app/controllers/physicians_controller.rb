@@ -7,11 +7,11 @@ class PhysiciansController < ApplicationController
                 @physicians = Physician.select {|physician| physician.user_id == @user.id}
                 erb :"/physicians/index"
             else
-                flash[:alert] = "You can only view your own physicians' information."
+                flash[:alert] = "You can only view your own physician information."
                 redirect to "/users/#{current_user.username}"
             end
         else
-            flash[:alert] = "You must be logged in to view your physicians' information."
+            flash[:alert] = "You must be logged in to view your physician information."
             redirect to "/login"
         end
     end
@@ -23,7 +23,7 @@ class PhysiciansController < ApplicationController
             if @med.user_id == current_user.id 
                 erb :"/physicians/new"
             else
-                flash[:alert] = "You can only add new physicians to your own physician's log."
+                flash[:alert] = "You can only add new physicians to your own account."
                 redirect to "/physicians/#{current_user.username}/all"
             end
         else
@@ -48,7 +48,7 @@ class PhysiciansController < ApplicationController
                 end
                 redirect to "/physicians/#{physician.id}"
             else
-                flash[:alert] = "You can only add new physicians to your own physician's log."
+                flash[:alert] = "You can only add new physicians to your own account."
                 redirect to "/physicians/#{user.username}/all"
             end
         else
@@ -67,7 +67,7 @@ class PhysiciansController < ApplicationController
                 redirect to "/physicians/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to edit any of your physician's information."
+            flash[:alert] = "You must be logged in to edit any of your physician information."
             redirect to "/login"
         end       
     end
@@ -92,11 +92,11 @@ class PhysiciansController < ApplicationController
                 @meds = Medication.select {|med| med.physician_id == @physician.id}
                 erb :"/physicians/show"
             else
-                flash[:alert] = "You can only view your own physicians' information."
+                flash[:alert] = "You can only view your own physician information."
                 redirect to "/users/#{current_user.username}"
             end
         else
-            flash[:alert] = "You must be logged in to view your physicians' information."
+            flash[:alert] = "You must be logged in to view your physician information."
             redirect to "/login"
         end
     end
