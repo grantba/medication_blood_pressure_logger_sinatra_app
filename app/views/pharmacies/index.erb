@@ -1,0 +1,38 @@
+<br>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+
+<% if @pharmacies.any? %>
+<h2> <%= current_user.name %>, your current pharmacies are: </h2>
+    <% @pharmacies.each do |rx| %>
+        <% if !rx.name.blank? %>
+            <h3><strong><u> <a href="/pharmacies/<%= rx.id %>"><%= rx.name %></a> </h3></strong></u>
+            <% end %>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/<%= rx.id %>/edit" method="get">
+            <input type="submit" value="Edit Pharmacy's Information">
+            </form>
+            <form style="float:right; margin:0px 15px 15px 0px" action="/pharmacies/<%= rx.id %>" method="post">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <input type="submit" value="Delete Pharmacy">
+            </form>
+        <% if !rx.address.blank? %>
+            <h4 style="text-indent: 40px"> Pharmacy Address: <%= rx.address %> </h4>
+            <% end %>
+        <% if !rx.phone_number.blank? %>
+            <h4 style="text-indent: 40px"> Pharmacy Phone Number: <%= rx.phone_number %> </h4>
+            <% end %>
+        <% if !rx.website.blank? %>
+            <h4 style="text-indent: 40px"> Website: <%= rx.website %> </h4>
+            <% end %>
+        <% if !rx.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= rx.notes %> </h4>
+            <% end %>
+            <br>
+    <% end %>
+
+<% else %>
+    <h2> <%= current_user.name %>, you do not have any pharmacies logged at this time. </h2>
+<% end %>
+

@@ -26,8 +26,8 @@
             <h4 style="text-indent: 40px"> Notes: <%= @physician.notes %> </h4>
             <% end %>
             <br>
-            <h4> This physician's associated medication(s): </h4>
+            <h4> This physician's associated medications: </h4>
         <% @meds.each do |med| %>
-            <h4 style="text-indent: 40px"><a href="/medications/<%= med.id %>"><%= med.name %></a></h4>
+            <h4 style="text-indent: 40px"><a href="/medications/<%= med.id %>"> <%= med.name %></a></h4>
         <% end %>
         

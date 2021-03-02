@@ -1,0 +1,33 @@
+<br>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+<form action="/pharmacies/<%= current_user.username %>/all" method="get">
+<input type="submit" value="&#8678; Back to all Pharmacies">
+</form>
+<br><br>
+
+<h2> <%= current_user.name %>, here is your pharmacy's information: </h2>
+        <% if !@pharmacy.name.blank? %>
+            <h3><strong> <%= @pharmacy.name %> </h3></strong>
+            <% end %>
+            <h4><a href="/pharmacies/<%= @pharmacy.id %>/edit">Edit Pharmacy's Information</a></h4><br>
+        <% if !@pharmacy.address.blank? %> 
+            <h4 style="text-indent: 40px"> Pharmacy Address: <%= @pharmacy.address %> </h4>
+            <% end %>
+        <% if !@pharmacy.phone_number.blank? %>
+            <h4 style="text-indent: 40px"> Pharmacy Phone Number: <%= @pharmacy.phone_number %></h4>
+            <% end %>
+        <% if !@pharmacy.website.blank? %>
+            <h4 style="text-indent: 40px"> Website: <%= @pharmacy.website %> </h4>
+            <% end %>
+        <% if !@pharmacy.notes.blank? %>
+            <h4 style="text-indent: 40px"> Notes: <%= @pharmacy.notes %> </h4>
+            <% end %>
+            <br>
+            <h4> This pharmacy's associated medications: </h4>
+        <% @meds.each do |med| %>
+            <h4 style="text-indent: 40px"><a href="/medications/<%= med.id %>"> <%= med.name %></a></h4>
+        <% end %>
+        

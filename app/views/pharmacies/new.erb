@@ -1,0 +1,33 @@
+<br>
+<form action="/users/<%= current_user.username %>" method="get">
+<input type="submit" value="&#8678; Return to Homepage">
+</form>
+<br>
+<form action="/pharmacies/<%= current_user.username %>/all" method="get">
+<input type="submit" value="&#8678; Back to all Pharmacies">
+</form>
+<br><br>
+
+<form method="post" action="/pharmacies/<%= @med.id %>">
+<p>Add a new pharmacy to your medication, <%= @med.name %>.</p>
+<p><label for="name">Name: </label><input type="text" name="name"></p>
+<p><label for="address">Pharmacy Address: </label><input type="text" name="address"></p>
+<p><label for="phone_number">Pharmacy Phone Number: </label><input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone_number" placeholder="123-456-7890"></p>
+<p><label for="website">Website: </label><input type="text" name="website"></p> 
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes"></textarea></p> 
+<input type="submit" value="Submit New Pharmacy">
+<input type="reset">
+</form>
+<br>
+<br>
+<% if @pharmacies.any? %>
+<P>If you'd like to add an existing pharmacy to your medication, please choose the correct pharmacy from the list below.</p>
+<% @pharmacies.each do |rx| %>
+    <form method="post" action="/pharmacies/<%= @med.id %>">
+    <br>
+    <p>Pharmacy: <%= rx.name %></p>
+    <p><label for="id"></label><input type="hidden" name="pharmacy_id" value="<%= rx.id %>"></p>
+    <input type="submit" value="Submit Existing Pharmacy">
+    </form>
+    <% end %>
+<% end %>
