@@ -4,7 +4,7 @@ class BloodPressureReadingsController < ApplicationController
         @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
             if @user.id == current_user.id 
-                @bps = current_user.blood_pressure_readings
+                @bps = current_user.blood_pressure_readings.order(:date, :time)
                 erb :"/bloodpressurereadings/index"
             else
                 flash[:alert] = "You can only view your own blood pressure readings."

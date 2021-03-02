@@ -83,7 +83,7 @@ class UsersController < ApplicationController
         else
             user = User.create(params)
             session[:user_id] = user.id
-            redirect to "/users/#{user.username}"
+            redirect to "/users/#{current_user.username}"
         end
     end
 
