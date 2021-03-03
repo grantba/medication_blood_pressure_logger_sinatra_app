@@ -10,7 +10,7 @@
 
 <form method="post" action="/bloodpressurereadings/<%= @bp.id %>">
 <input id="hidden" type="hidden" name="_method" value="patch">
-<p><label for="date">Date: </label><input type="text" name="date" value="<%= @bp.date %>"></p>
+<p><label for="date">Date: </label><input type="date" name="date" value="<%= @bp.date %>"></p>
 <p><label for="time">Time: </label><input type="time" name="time" value= "<%= @bp.time %>"></p>
 <p><label for="systolic_reading">Systolic Reading: </label><input type="text" name="systolic_reading" value="<%= @bp.systolic_reading %>"> *top number</p>
 <p><label for="diastolic_reading">Diastolic Reading: </label><input type="text" name="diastolic_reading" value="<%= @bp.diastolic_reading %>"> *bottom number</p>

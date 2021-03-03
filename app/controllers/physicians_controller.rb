@@ -7,7 +7,7 @@ class PhysiciansController < ApplicationController
                 @physicians = Physician.select {|physician| physician.user_id == @user.id}
                 erb :"/physicians/index"
             else
-                flash[:alert] = "You can only view your own physician information."
+                flash[:alert] = "You can only view the physician information that belongs to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -23,8 +23,8 @@ class PhysiciansController < ApplicationController
             if @med.user_id == current_user.id 
                 erb :"/physicians/new"
             else
-                flash[:alert] = "You can only add new physicians to your own account."
-                redirect to "/physicians/#{current_user.username}/all"
+                flash[:alert] = "You can only add new physicians to your own medications."
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new physician."
@@ -48,8 +48,8 @@ class PhysiciansController < ApplicationController
                 end
                 redirect to "/physicians/#{physician.id}"
             else
-                flash[:alert] = "You can only add new physicians to your own account."
-                redirect to "/physicians/#{user.username}/all"
+                flash[:alert] = "You can only add new physicians to your own medications."
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new physician."
@@ -92,7 +92,7 @@ class PhysiciansController < ApplicationController
                 @meds = Medication.select {|med| med.physician_id == @physician.id}
                 erb :"/physicians/show"
             else
-                flash[:alert] = "You can only view your own physician information."
+                flash[:alert] = "You can only view the physician information that belongs to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -108,7 +108,7 @@ class PhysiciansController < ApplicationController
             physician = Physician.find_by(id: params[:id])
             if physician.user_id == current_user.id && session[physician: number] == 1
                 session[physician: number] = 2
-                flash[:warning] = "Are you sure you want to delete your physician, #{physician.name}, from your account?" 
+                flash[:warning] = "Are you sure you want to delete the physician, #{physician.name}, from your account?" 
                 redirect to "/physicians/#{current_user.username}/all"
             elsif physician.user_id == current_user.id && session[physician: number] == 2
                 @meds = Medication.select {|med| med.physician_id == physician.id}
@@ -120,11 +120,11 @@ class PhysiciansController < ApplicationController
                 flash[:notice] = "#{physician.name} has been deleted from your account and removed from any associated medications."
                 redirect to "/physicians/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete your own physicians from your account."
+                flash[:alert] = "You can only delete the physicians that belong to your account."
                 redirect to "/physicians/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to delete any of your physicians."
+            flash[:alert] = "You must be logged in to delete any of the physicians that belong to your account."
             redirect to "/login"
         end
     end

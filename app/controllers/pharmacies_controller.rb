@@ -23,8 +23,8 @@ class PharmaciesController < ApplicationController
             if @med.user_id == current_user.id 
                 erb :"/pharmacies/new"
             else
-                flash[:alert] = "You can only add new pharmacies to your own account."
-                redirect to "/pharmacies/#{current_user.username}/all"
+                flash[:alert] = "You can only add new pharmacies to your own medications."
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new pharmacy."
@@ -48,8 +48,8 @@ class PharmaciesController < ApplicationController
                 end
                 redirect to "/pharmacies/#{pharmacy.id}"
             else
-                flash[:alert] = "You can only add new pharmacies to your own account."
-                redirect to "/pharmacies/#{user.username}/all"
+                flash[:alert] = "You can only add new pharmacies to your own medications."
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new pharmacy."
@@ -92,7 +92,7 @@ class PharmaciesController < ApplicationController
                 @meds = Medication.select {|med| med.pharmacy_id == @pharmacy.id}
                 erb :"/pharmacies/show"
             else
-                flash[:alert] = "You can only view your own pharmacy information."
+                flash[:alert] = "You can only view the pharmacy information that belongs to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -108,7 +108,7 @@ class PharmaciesController < ApplicationController
             pharmacy = Pharmacy.find_by(id: params[:id])
             if pharmacy.user_id == current_user.id && session[pharmacy: number] == 1
                 session[pharmacy: number] = 2
-                flash[:warning] = "Are you sure you want to delete your pharmacy, #{pharmacy.name}, from your account?" 
+                flash[:warning] = "Are you sure you want to delete the pharmacy, #{pharmacy.name}, from your account?" 
                 redirect to "/pharmacies/#{current_user.username}/all"
             elsif pharmacy.user_id == current_user.id && session[pharmacy: number] == 2
                 @meds = Medication.select {|med| med.pharmacy_id == pharmacy.id}
@@ -120,11 +120,11 @@ class PharmaciesController < ApplicationController
                 flash[:notice] = "#{pharmacy.name} has been deleted from your account and removed from any associated medications."
                 redirect to "/pharmacies/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete your own pharmacies from your account."
+                flash[:alert] = "You can only delete the pharmacies that belong to your account."
                 redirect to "/pharmacies/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to delete any of your pharmacies."
+            flash[:alert] = "You must be logged in to delete any of the  pharmacies that belong to your account."
             redirect to "/login"
         end
     end

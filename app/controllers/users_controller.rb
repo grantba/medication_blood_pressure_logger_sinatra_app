@@ -25,7 +25,7 @@ class UsersController < ApplicationController
                 erb :"/users/edit"
             else
                 flash[:error] = "You can only edit your own information."
-                redirect to "/users/#{@user.username}"
+                redirect to "/users/#{current_user.username}"
             end
         else
             flash[:error] = "You are not currently logged in to your account. Please log in or sign up if you have not created an account yet."
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
             redirect to "/users/#{user.username}"
         else
             flash[:error] = "You can only edit your own information."
-            redirect to "/users/#{user.username}"
+            redirect to "/users/#{current_user.username}"
         end
     end
 
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
                 erb :"/users/homepage"
             else
                 flash[:error] = "You can only view your own account information."
-                redirect to "/users/login"
+                redirect to "/users/#{current_user.username}"
             end
         else
             flash[:error] = "You are not currently logged in to your account. Please log in or sign up if you have not created an account yet."
@@ -77,6 +77,9 @@ class UsersController < ApplicationController
         if params[:name].empty? || params[:username].empty? || params[:password].empty?
             flash[:error] = "The name, username, and password fields can not be empty. Please try again."
             redirect to "/signup"
+        elsif User.find_by(name: params[:name], username: params[:username])&.authenticate(params[:password])
+            flash[:notice] = "You seem to have an account already. Please log in instead."
+            redirect to "/login"
         elsif User.find_by(username: params[:username])
             flash[:error] = "That username has already been taken. Please try again."
             redirect to "/signup"
@@ -96,7 +99,7 @@ class UsersController < ApplicationController
             redirect to "/"
             else
                 flash[:notice] = "You can only log out of your own account."
-                redirect to "/users/#{user.username}"
+                redirect to "/users/#{current_user.username}"
             end
         else
             flash[:error] = "You are not currently logged in to your account."
@@ -111,14 +114,14 @@ class UsersController < ApplicationController
             if  user.id == current_user.id && session[:count] == 1
                 session[:count] = 2
                 flash[:warning] = "Are you sure you want to delete your account?"
-                redirect to "/users/#{user.username}"
+                redirect to "/users/#{current_user.username}"
             elsif user.id == current_user.id && session[:count] == 2
-                flash[:notice] = "We're sad to see you go #{user.name}, but thanks for visiting!"
+                flash[:notice] = "We're sad to see you go #{current_user.name}, but thanks for visiting!"
                 user.destroy
                 redirect to "/"
             else
                 flash[:error] = "You can only delete your own account."
-                redirect to "/users/login"
+                redirect to "/users/#{current_user.username}"
             end  
         else
             flash[:error] = "You must be logged in to delete your account. Please try again."

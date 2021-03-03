@@ -8,7 +8,7 @@ class BloodPressureReadingsController < ApplicationController
                 erb :"/bloodpressurereadings/index"
             else
                 flash[:alert] = "You can only view your own blood pressure readings."
-                redirect to "/users/#{@user.username}"
+                redirect to "/users/#{current_user.username}"
             end
         else
             flash[:alert] = "You must be logged in to view your blood pressure readings."
@@ -22,8 +22,8 @@ class BloodPressureReadingsController < ApplicationController
             if @user.id == current_user.id 
                 erb :"/bloodpressurereadings/new"
             else
-                flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure readings log."
-                redirect to "/bloodpressurereadings/#{@user.username}"
+                flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure log."
+                redirect to "/users/#{current_user.username}"
             end
         else
             flash[:alert] = "You must be logged in to submit a new blood pressure reading."
@@ -41,7 +41,7 @@ class BloodPressureReadingsController < ApplicationController
                 redirect to "/bloodpressurereadings/#{bp.id}"
             else
                 flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure reading log."
-                redirect to "/bloodpressurereadings/#{user.username}"
+                redirect to "/bloodpressurereadings/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new blood pressure reading."
@@ -56,7 +56,7 @@ class BloodPressureReadingsController < ApplicationController
                 erb :"/bloodpressurereadings/edit"
             else
                 flash[:alert] = "You can only edit the blood pressure readings that belong to you."
-                redirect to "/bloodpressurereadings/#{current_user.username}"
+                redirect to "/bloodpressurereadings/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to edit any of your blood pressure readings."
@@ -74,7 +74,7 @@ class BloodPressureReadingsController < ApplicationController
             redirect to "/bloodpressurereadings/#{bp.id}"
         else
             flash[:alert] = "You can only edit the blood pressure readings that belong to you."
-            redirect to "/bloodpressurereadings/#{current_user.username}"
+            redirect to "/bloodpressurereadings/#{current_user.username}/all"
         end
     end
 
@@ -84,7 +84,7 @@ class BloodPressureReadingsController < ApplicationController
             if @bp.user_id == current_user.id 
                 erb :"/bloodpressurereadings/show"
             else
-                flash[:alert] = "You can only view your own blood pressure readings."
+                flash[:alert] = "You can only view the blood pressure readings that belong to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -107,7 +107,7 @@ class BloodPressureReadingsController < ApplicationController
                 flash[:notice] = "Your blood pressure reading, #{bp.systolic_reading} / #{bp.diastolic_reading} from #{bp.date}, has been deleted from your account."
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete your own blood pressure readings."
+                flash[:alert] = "You can only delete the blood pressure readings that belong to you."
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"
             end
         else

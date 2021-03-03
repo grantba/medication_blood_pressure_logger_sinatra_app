@@ -23,7 +23,7 @@ class MedicationsController < ApplicationController
                 erb :"/medications/new"
             else
                 flash[:alert] = "You can only add new medications to your own medication log."
-                redirect to "/medications/#{@user.username}/all"
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
@@ -41,7 +41,7 @@ class MedicationsController < ApplicationController
                 redirect to "/medications/#{med.id}"
             else
                 flash[:alert] = "You can only add new medications to your medication log."
-                redirect to "/medications/#{user.username}/all"
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to submit a new medication."
@@ -85,7 +85,7 @@ class MedicationsController < ApplicationController
             if @med.user_id == current_user.id 
                 erb :"/medications/show"
             else
-                flash[:alert] = "You can only view your own medications."
+                flash[:alert] = "You can only view the medications that belong to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -108,7 +108,7 @@ class MedicationsController < ApplicationController
                 flash[:notice] = "#{med.name} has been deleted from your account."
                 redirect to "/medications/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete your own medications."
+                flash[:alert] = "You can only delete the medications that belong to you."
                 redirect to "/medications/#{current_user.username}/all"
             end
         else
