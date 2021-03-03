@@ -14,7 +14,7 @@ class UsersController < ApplicationController
             redirect to "/users/#{user.username}"
         else
             flash[:error] = "Your username and password could not be validated. Please log in or sign up if you have not created an account yet."
-            redirect to "/"
+            redirect to "/login"
         end
     end
 
