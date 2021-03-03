@@ -7,7 +7,7 @@ class BloodPressureReadingsController < ApplicationController
                 @bps = current_user.blood_pressure_readings.order(:date, :time)
                 erb :"/bloodpressurereadings/index"
             else
-                flash[:alert] = "You can only view your own blood pressure readings."
+                flash[:alert] = "You can only view the blood pressure readings that belong to you."
                 redirect to "/users/#{current_user.username}"
             end
         else

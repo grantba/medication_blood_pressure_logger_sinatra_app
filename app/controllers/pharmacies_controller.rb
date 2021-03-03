@@ -7,7 +7,7 @@ class PharmaciesController < ApplicationController
                 @pharmacies = Pharmacy.select {|pharmacy| pharmacy.user_id == @user.id}
                 erb :"/pharmacies/index"
             else
-                flash[:alert] = "You can only view your own pharmacy information."
+                flash[:alert] = "You can only view the pharmacy information that belongs to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -23,11 +23,11 @@ class PharmaciesController < ApplicationController
             if @med.user_id == current_user.id 
                 erb :"/pharmacies/new"
             else
-                flash[:alert] = "You can only add new pharmacies to your own medications."
+                flash[:alert] = "You can only add a new pharmacy to your own medications."
                 redirect to "/medications/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to submit a new pharmacy."
+            flash[:alert] = "You must be logged in to submit a new pharmacy to your account."
             redirect to "/login"
         end
     end
@@ -48,11 +48,11 @@ class PharmaciesController < ApplicationController
                 end
                 redirect to "/pharmacies/#{pharmacy.id}"
             else
-                flash[:alert] = "You can only add new pharmacies to your own medications."
+                flash[:alert] = "You can only add a new pharmacy to your own medications."
                 redirect to "/medications/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to submit a new pharmacy."
+            flash[:alert] = "You must be logged in to submit a new pharmacy to your account."
             redirect to "/login"
         end
     end
@@ -120,11 +120,11 @@ class PharmaciesController < ApplicationController
                 flash[:notice] = "#{pharmacy.name} has been deleted from your account and removed from any associated medications."
                 redirect to "/pharmacies/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete the pharmacies that belong to your account."
+                flash[:alert] = "You can only delete a pharmacy that belongs to your own account."
                 redirect to "/pharmacies/#{current_user.username}/all"
             end
         else
-            flash[:alert] = "You must be logged in to delete any of the  pharmacies that belong to your account."
+            flash[:alert] = "You must be logged in to delete a pharmacy that belongs to you."
             redirect to "/login"
         end
     end

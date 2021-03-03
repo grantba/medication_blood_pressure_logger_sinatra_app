@@ -7,7 +7,7 @@ class MedicationsController < ApplicationController
                 @meds = current_user.medications
                 erb :"/medications/index"
             else
-                flash[:alert] = "You can only view your own medications."
+                flash[:alert] = "You can only view the medications that belong to you."
                 redirect to "/users/#{current_user.username}"
             end
         else
@@ -40,7 +40,7 @@ class MedicationsController < ApplicationController
                 med.save
                 redirect to "/medications/#{med.id}"
             else
-                flash[:alert] = "You can only add new medications to your medication log."
+                flash[:alert] = "You can only add new medications to your own medication log."
                 redirect to "/medications/#{current_user.username}/all"
             end
         else

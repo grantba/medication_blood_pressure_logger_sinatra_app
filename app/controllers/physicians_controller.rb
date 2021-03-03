@@ -48,7 +48,7 @@ class PhysiciansController < ApplicationController
                 end
                 redirect to "/physicians/#{physician.id}"
             else
-                flash[:alert] = "You can only add new physicians to your own medications."
+                flash[:alert] = "You can only add a new physician to your own medication."
                 redirect to "/medications/#{current_user.username}/all"
             end
         else
@@ -120,7 +120,7 @@ class PhysiciansController < ApplicationController
                 flash[:notice] = "#{physician.name} has been deleted from your account and removed from any associated medications."
                 redirect to "/physicians/#{current_user.username}/all"
             else
-                flash[:alert] = "You can only delete the physicians that belong to your account."
+                flash[:alert] = "You can only delete a physician that belongs to your account."
                 redirect to "/physicians/#{current_user.username}/all"
             end
         else
