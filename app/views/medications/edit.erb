@@ -21,8 +21,8 @@
 <p><label for="date_filled">Date Filled: </label><input type="date" name="date_filled" value="<%= @med.date_filled %>"></p>
 <p><label for="refill_date">Refill Date: </label><input type="date" name="refill_date" value="<%= @med.refill_date %>"></p>
 <p><label for="discard_or_expiration_date">Discard or Expiration Date: </label><input type="date" name="discard_or_expiration_date" value="<%= @med.discard_or_expiration_date %>"></p>
-<p><label for="side_effects">Side Effects: </label><textarea label="side_effects" name="side_effects" value="<%= @med.side_effects %>"></textarea></p> 
-<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @med.notes %>"></textarea></p> 
+<p><label for="side_effects">Side Effects: </label><textarea label="side_effects" name="side_effects" value="<%= @med.side_effects %>"><%= @med.side_effects %></textarea></p> 
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @med.notes %>"><%= @med.notes %></textarea></p> 
 <input type="submit" value="Submit Changes">
 <input type="reset">
 </form>

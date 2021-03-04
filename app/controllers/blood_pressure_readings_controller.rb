@@ -3,7 +3,7 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/:slug/all" do 
         @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if @user.id == current_user.id 
+            if @user &&  @user.id == current_user.id 
                 @bps = current_user.blood_pressure_readings.order(:date, :time)
                 erb :"/bloodpressurereadings/index"
             else

@@ -17,7 +17,7 @@
 <p><label for="pulse">Pulse: </label><input type="text" name="pulse" value="<%= @bp.pulse %>"> *beats per minute</p> 
 <p><label for="device_used">Device Used: </label><input type="text" name="device_used" value="<%= @bp.device_used %>"></p>
 <p><label for="site_used">Site Used: </label><input type="text" name="site_used" value="<%= @bp.site_used %>"></p>
-<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @bp.notes %>"></textarea></p> 
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @bp.notes %>"><%= @bp.notes %></textarea></p> 
 <input type="submit" value="Submit Changes">
 <input type="reset">
 </form>

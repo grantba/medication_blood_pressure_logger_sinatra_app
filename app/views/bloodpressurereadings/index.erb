@@ -8,7 +8,7 @@
 <h2> <%= current_user.name %>, your current blood pressure readings are: </h2>
     <% @bps.each do |bp| %>
         <% if !bp.date.blank? || !bp.time.blank? %>
-            <h3><strong><u> <a href="/bloodpressurereadings/<%= bp.id %>"><%= bp.date %> at <%= bp.time %> </a> </h3></strong></u>
+            <h3><strong><u> <a href="/bloodpressurereadings/<%= bp.id %>"><%= Time.strptime("#{bp.date}", "%Y-%m-%d").strftime("%m/%d/%Y") %> at <%= Time.strptime("#{bp.time}", "%H:%M").strftime("%I:%M %p") %> </a> </h3></strong></u>
             <% end %>
             <form style="float:right; margin:0px 15px 15px 0px" action="/bloodpressurereadings/<%= bp.id %>/edit" method="get">
             <input type="submit" value="Edit BP Reading">

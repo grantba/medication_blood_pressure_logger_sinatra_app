@@ -18,7 +18,7 @@
 <p><label for="phone_number">Office Phone Number: </label><input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone_number" placeholder="123-456-7890"></p>
 <% end %>
 <p><label for="website">Website: </label><input type="text" name="website" value="<%= @physician.website %>"></p>
-<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @physician.notes %>"></textarea></p> 
+<p><label for="notes">Notes: </label><textarea label="notes" name="notes" value="<%= @physician.notes %>"><%= @physician.notes %></textarea></p> 
 <input type="submit" value="Submit Changes">
 <input type="reset">
 </form>
