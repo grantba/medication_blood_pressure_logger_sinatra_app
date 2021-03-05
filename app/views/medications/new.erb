@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= @user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/medications/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all Medications">
-</form>
-<br><br>
-
 <form method="post" action="/medications/<%= @user.username %>">
 <p><label for="name">Medication Name: </label><input type="text" name="name"></p>
 <p><label for="dose">Dose: </label><input type="text" name="dose"> *include amount and measurement type such as mg or ml</p>

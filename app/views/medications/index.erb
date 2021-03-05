@@ -1,9 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-
 <% if @meds.any? %>
 <h2> <%= current_user.name %>, your current medications are: </h2>
     <% @meds.each do |med| %>

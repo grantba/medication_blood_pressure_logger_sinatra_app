@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/pharmacies/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all Pharmacies">
-</form>
-<br><br>
-
 <h2> <%= current_user.name %>, here is your pharmacy's information: </h2>
         <% if !@pharmacy.name.blank? %>
             <h3><strong> <%= @pharmacy.name %> </h3></strong>

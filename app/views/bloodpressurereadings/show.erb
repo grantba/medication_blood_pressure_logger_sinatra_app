@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all BP Readings">
-</form>
-<br><br>
-
 <h2> <%= current_user.name %>, here is your blood pressure reading's information: </h2>
         <% if !@bp.date.blank? || !@bp.time.blank? %>
             <h3><strong> <%= @bp.date %> at <%= @bp.time %> </h3></strong>

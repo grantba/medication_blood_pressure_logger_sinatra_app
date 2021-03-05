@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     get "/users/:slug/edit" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            if @user.id == current_user.id
+            if @user && @user.id == current_user.id
                 erb :"/users/edit"
             else
                 flash[:error] = "You can only edit your own information."
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
     patch "/users/:slug" do
         user = User.find_by_matched_slug(params[:slug])
-        if user.id == current_user.id
+        if user && user.id == current_user.id
             user.name = params[:name] unless params[:name].blank?
             user.username = params[:username] unless params[:username].blank?
             user.password = params[:password] unless params[:password].blank?
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     get "/users/:slug" do
         if logged_in?
             @user = User.find_by_matched_slug(params[:slug])
-            if @user.id == current_user.id
+            if @user && @user.id == current_user.id
                 erb :"/users/homepage"
             else
                 flash[:error] = "You can only view your own account information."
@@ -93,7 +93,7 @@ class UsersController < ApplicationController
     get "/users/:slug/logout" do
         if logged_in?
             user = User.find_by_matched_slug(params[:slug])
-            if user.id == current_user.id
+            if user && user.id == current_user.id
             flash[:notice] = "Thanks for visiting today, #{user.name}. See you again soon!"
             session.clear
             redirect to "/"
@@ -111,11 +111,11 @@ class UsersController < ApplicationController
         session[:count] = 1 unless session[:count] == 2
         if logged_in?
             user = User.find_by_matched_slug(params[:slug])
-            if  user.id == current_user.id && session[:count] == 1
+            if  user && user.id == current_user.id && session[:count] == 1
                 session[:count] = 2
                 flash[:warning] = "Are you sure you want to delete your account?"
                 redirect to "/users/#{current_user.username}"
-            elsif user.id == current_user.id && session[:count] == 2
+            elsif user && user.id == current_user.id && session[:count] == 2
                 flash[:notice] = "We're sad to see you go #{current_user.name}, but thanks for visiting!"
                 user.destroy
                 redirect to "/"

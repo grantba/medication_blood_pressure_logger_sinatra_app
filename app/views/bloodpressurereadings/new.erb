@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= @user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all BP Readings">
-</form>
-<br><br>
-
 <form method="post" action="/bloodpressurereadings/<%= @user.username %>">
 <p><label for="date">Date: </label><input type="date" name="date"></p>
 <p><label for="time">Time: </label><input type="time" name="time"></p>

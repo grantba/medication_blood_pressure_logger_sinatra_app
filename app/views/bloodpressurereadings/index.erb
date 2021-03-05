@@ -1,9 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-
 <% if @bps.any? %>
 <h2> <%= current_user.name %>, your current blood pressure readings are: </h2>
     <% @bps.each do |bp| %>

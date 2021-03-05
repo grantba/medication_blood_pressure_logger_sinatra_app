@@ -1,14 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/medications/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all Medications">
-</form>
-<br><br>
-
-
 <form method="post" action="/medications/<%= @med.id %>">
 <input id="hidden" type="hidden" name="_method" value="patch">
 <p><label for="name">Medication Name: </label><input type="text" name="name" value="<%= @med.name %>"></p>

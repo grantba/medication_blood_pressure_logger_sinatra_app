@@ -19,7 +19,7 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/:slug/new" do
         @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if @user.id == current_user.id 
+            if @user && @user.id == current_user.id 
                 erb :"/bloodpressurereadings/new"
             else
                 flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure log."
@@ -34,7 +34,7 @@ class BloodPressureReadingsController < ApplicationController
     post "/bloodpressurereadings/:slug" do
         user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if user.id == current_user.id 
+            if user && user.id == current_user.id 
                 bp = BloodPressureReading.new(params.except("slug"))
                 bp.user_id = current_user.id 
                 bp.save
@@ -52,7 +52,7 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/:id/edit" do
         if logged_in?
             @bp = BloodPressureReading.find_by(id: params[:id])
-            if @bp.user_id == current_user.id
+            if current_user && @bp.user_id == current_user.id
                 erb :"/bloodpressurereadings/edit"
             else
                 flash[:alert] = "You can only edit the blood pressure readings that belong to you."
@@ -66,7 +66,7 @@ class BloodPressureReadingsController < ApplicationController
 
     patch "/bloodpressurereadings/:id" do
         bp = BloodPressureReading.find_by(id: params[:id])
-        if bp.user_id == current_user.id 
+        if current_user && bp.user_id == current_user.id 
             bp.notes = params[:notes] unless params[:notes].blank?
             bp.save 
             bp.update(date: params[:date], time: params[:time], systolic_reading: params[:systolic_reading], diastolic_reading: params[:diastolic_reading], pulse: params[:pulse], device_used: params[:device_used], site_used: params[:site_used]) 
@@ -81,7 +81,7 @@ class BloodPressureReadingsController < ApplicationController
     get "/bloodpressurereadings/:id" do
         if logged_in?
             @bp = BloodPressureReading.find_by(id: params[:id])
-            if @bp.user_id == current_user.id 
+            if current_user && @bp.user_id == current_user.id 
                 erb :"/bloodpressurereadings/show"
             else
                 flash[:alert] = "You can only view the blood pressure readings that belong to you."
@@ -98,11 +98,11 @@ class BloodPressureReadingsController < ApplicationController
         session[bp: number] = 1 unless session[bp: number] == 2
         if logged_in?
             bp = BloodPressureReading.find_by(id: params[:id])
-            if bp.user_id == current_user.id && session[bp: number] == 1
+            if current_user && bp.user_id == current_user.id && session[bp: number] == 1
                 session[bp: number] = 2
                 flash[:warning] = "Are you sure you want to delete the blood pressure reading, #{bp.systolic_reading} / #{bp.diastolic_reading} from #{bp.date}?" 
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"
-            elsif bp.user_id == current_user.id && session[bp: number] == 2
+            elsif current_user && bp.user_id == current_user.id && session[bp: number] == 2
                 bp.destroy
                 flash[:notice] = "Your blood pressure reading, #{bp.systolic_reading} / #{bp.diastolic_reading} from #{bp.date}, has been deleted from your account."
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"

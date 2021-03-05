@@ -1,9 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-
 <form action="/users/<%= @user.username %>" method="post">
 <input id="hidden" type="hidden" name="_method" value="patch">
 <p><label for="name">Name: </label><input type="text" name="name" value="<%= @user.name %>"></p>

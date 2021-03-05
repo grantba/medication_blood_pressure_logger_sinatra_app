@@ -3,7 +3,7 @@ class MedicationsController < ApplicationController
     get "/medications/:slug/all" do 
         @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if @user.id == current_user.id 
+            if @user && @user.id == current_user.id 
                 @meds = current_user.medications
                 erb :"/medications/index"
             else
@@ -19,7 +19,7 @@ class MedicationsController < ApplicationController
     get "/medications/:slug/new" do
         @user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if @user.id == current_user.id 
+            if @user && @user.id == current_user.id 
                 erb :"/medications/new"
             else
                 flash[:alert] = "You can only add new medications to your own medication log."
@@ -34,7 +34,7 @@ class MedicationsController < ApplicationController
     post "/medications/:slug" do
         user = User.find_by_matched_slug(params[:slug])
         if logged_in?
-            if user.id == current_user.id 
+            if user && user.id == current_user.id 
                 med = Medication.new(params.except("slug"))
                 med.user_id = current_user.id 
                 med.save
@@ -52,7 +52,7 @@ class MedicationsController < ApplicationController
     get "/medications/:id/edit" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
-            if @med.user_id == current_user.id
+            if current_user && @med.user_id == current_user.id
                 erb :"/medications/edit"
             else
                 flash[:alert] = "You can only edit the medications that belong to you."
@@ -66,7 +66,7 @@ class MedicationsController < ApplicationController
 
     patch "/medications/:id" do
         med = Medication.find_by(id: params[:id])
-        if med.user_id == current_user.id 
+        if current_user && med.user_id == current_user.id 
             med.side_effect = params[:side_effects] unless params[:side_effects].blank?
             med.notes = params[:notes] unless params[:notes].blank?
             med.save 
@@ -82,7 +82,7 @@ class MedicationsController < ApplicationController
     get "/medications/:id" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
-            if @med.user_id == current_user.id 
+            if current_user && @med.user_id == current_user.id 
                 erb :"/medications/show"
             else
                 flash[:alert] = "You can only view the medications that belong to you."
@@ -99,11 +99,11 @@ class MedicationsController < ApplicationController
         session[med: number] = 1 unless session[med: number] == 2
         if logged_in?
             med = Medication.find_by(id: params[:id])
-            if med.user_id == current_user.id && session[med: number] == 1
+            if current_user && med.user_id == current_user.id && session[med: number] == 1
             session[med: number] = 2
                 flash[:warning] = "Are you sure you want to delete #{med.name} from your account?" 
                 redirect to "/medications/#{current_user.username}/all"
-            elsif med.user_id == current_user.id && session[med: number] == 2
+            elsif current_user && med.user_id == current_user.id && session[med: number] == 2
                 med.destroy
                 flash[:notice] = "#{med.name} has been deleted from your account."
                 redirect to "/medications/#{current_user.username}/all"

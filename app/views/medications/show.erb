@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/medications/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all Medications">
-</form>
-<br><br>
-
 <h2> <%= current_user.name %>, here is your medication's information: </h2>
         <% if !@med.name.blank? %>
             <h3><strong> <%= @med.name %> </h3></strong>
@@ -32,7 +22,10 @@
             </form>
             <% end %>
         <% if !@med.dose.blank? %> 
-            <h4 style="text-indent: 40px"> Dose: <%= @med.dose %> <%= @med.form %>, <%= @med.route %></h4>
+            <h4 style="text-indent: 40px"> Dose and Form: <%= @med.dose %> <%= @med.form %> 
+            <% end %>
+        <% if !@med.route.blank? %>
+            <h4 style="text-indent: 40px"> Route: <%= @med.route %></h4>
             <% end %>
         <% if !@med.time_to_be_taken.blank? %>
             <h4 style="text-indent: 40px"> Time to be taken: <%= @med.time_to_be_taken %></h4>

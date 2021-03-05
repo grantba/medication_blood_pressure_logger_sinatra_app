@@ -1,13 +1,3 @@
-<br>
-<form action="/users/<%= current_user.username %>" method="get">
-<input type="submit" value="&#8678; Return to Homepage">
-</form>
-<br>
-<form action="/bloodpressurereadings/<%= current_user.username %>/all" method="get">
-<input type="submit" value="&#8678; Back to all BP Readings">
-</form>
-<br><br>
-
 <form method="post" action="/bloodpressurereadings/<%= @bp.id %>">
 <input id="hidden" type="hidden" name="_method" value="patch">
 <p><label for="date">Date: </label><input type="date" name="date" value="<%= @bp.date %>"></p>

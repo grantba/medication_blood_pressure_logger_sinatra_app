@@ -6,12 +6,7 @@
 <a style="margin-left: 40px; text-decoration: none;" href="/physicians/<%= @user.username %>/all">&#9830; Physician Information</a><br><br>
 <a style="margin-left: 40px; text-decoration: none;" href="/pharmacies/<%= @user.username %>/all">&#9830; Pharmacy Information</a><br><br>
 <a style="text-decoration: none" href="/bloodpressurereadings/<%= @user.username %>/all">&#9830; Manage your Blood Pressure Log</a>
-<br><br><br>
-<% if logged_in? %>
-  <form style="float:left; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>/logout" method="get">
-  <input type="submit" value="Logout">
-  </form>
-<% end %>
+<br>
 
 <form style="float:right; margin:0px 15px 15px 0px" action="/users/<%= @user.username %>/edit" method="get">
   <input type="submit" value="Edit Account Information">
