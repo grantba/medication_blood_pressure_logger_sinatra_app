@@ -47,7 +47,11 @@ Check out my blog post
 
 Here is the link where you can read about my experience developing this application on my blog post.
 
+https://grant-blaire.medium.com/understanding-mvcs-restful-routes-and-crud-actions-in-a-sinatra-application-57d87283a035
+
 Video Walkthrough
 
 Here is the link to a video walkthrough of this application.
+
+https://youtu.be/kYq8o_llnuw 
 

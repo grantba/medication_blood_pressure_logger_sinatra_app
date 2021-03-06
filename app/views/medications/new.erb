@@ -1,9 +1,9 @@
 <form method="post" action="/medications/<%= @user.username %>">
-<p><label for="name">Medication Name: </label><input type="text" name="name"></p>
-<p><label for="dose">Dose: </label><input type="text" name="dose"> *include amount and measurement type such as mg or ml</p>
+<p><label for="name">Medication Name: </label><input type="text" name="name" placeholder="*required"></p>
+<p><label for="dose">Dose: </label><input type="text" name="dose" placeholder="*required"> *include amount and measurement type such as mg or ml</p>
 <p><label for="form">Form: </label><input type="text" name="form"> *such as liquid or tablets</p>
 <p><label for="route">Route: </label><input type="text" name="route"> *such as oral or subcutaneous</p>
-<p><label for="time_to_be_taken">Time(s) to be Taken: </label><input type="text" name="time_to_be_taken"></p> 
+<p><label for="time_to_be_taken">Time(s) to be Taken: </label><input type="text" name="time_to_be_taken" placeholder="*required"></p> 
 <p><label for="category">Category: </label><input type="text" name="category"> *such as prescription or over-the-counter</p>
 <p><label for="prescription_number">Prescription Number: </label><input type="text" name="prescription_number"></p>
 <p><label for="date_filled">Date Filled: </label><input type="date" name="date_filled"></p>
@@ -14,3 +14,10 @@
 <input type="submit" value="Submit New Medication">
 <input type="reset">
 </form>
+
+<br>
+<p>Below are two great resources for medical abbreviations which can help with some of the confusing abbreviations used on prescription labels.</p>
+<a target="blank" href="https://www.drugs.com/article/prescription-abbreviations.html">Click here for a link to Wikipedia</a>
+<br>
+<a target="blank" href="https://simple.wikipedia.org/wiki/List_of_medical_abbreviations">Click here for a link to Drugs.com</a> 
+<br><br>

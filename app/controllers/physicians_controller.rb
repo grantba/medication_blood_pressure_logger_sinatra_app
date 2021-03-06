@@ -39,6 +39,9 @@ class PhysiciansController < ApplicationController
                 if physician = Physician.find_by(id: params[:physician_id])
                     @med.physician_id = physician.id
                     @med.save
+                elsif params[:name].empty? || params[:phone_number].empty?
+                    flash[:alert] = "The name and phone number fields can not be empty. Please try again."
+                    redirect to "/physicians/#{params[:id]}/new" 
                 else
                     physician = Physician.new(params.except("id", "physician_id"))
                     physician.user_id = current_user.id

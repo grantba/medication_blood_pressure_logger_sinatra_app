@@ -37,13 +37,13 @@
             <h4 style="text-indent: 40px"> Prescription Number: <%= @med.prescription_number %> </h4>
             <% end %>
         <% if !@med.date_filled.blank? %>
-            <h4 style="text-indent: 40px"> Date Filled: <%= @med.date_filled %> </h4>
+            <h4 style="text-indent: 40px"> Date Filled: <%= Time.strptime("#{@med.date_filled}", "%Y-%m-%d").strftime("%m/%d/%Y") %> </h4>
             <% end %>
         <% if !@med.refill_date.blank? %>
-            <h4 style="text-indent: 40px"> Refill Date: <%= @med.refill_date %> </h4>
+            <h4 style="text-indent: 40px"> Refill Date: <%= Time.strptime("#{@med.refill_date}", "%Y-%m-%d").strftime("%m/%d/%Y") %> </h4>
             <% end %>
         <% if !@med.discard_or_expiration_date.blank? %>
-            <h4 style="text-indent: 40px"> Discard or Expiration Date: <%= @med.discard_or_expiration_date %> </h4>
+            <h4 style="text-indent: 40px"> Discard or Expiration Date: <%= Time.strptime("#{@med.discard_or_expiration_date}", "%Y-%m-%d").strftime("%m/%d/%Y") %> </h4>
             <% end %>
         <% if !@med.side_effects.blank? %>
             <h4 style="text-indent: 40px"> Side Effects: <%= @med.side_effects %> </h4>

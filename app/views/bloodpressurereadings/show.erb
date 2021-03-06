@@ -1,6 +1,6 @@
 <h2> <%= current_user.name %>, here is your blood pressure reading's information: </h2>
         <% if !@bp.date.blank? || !@bp.time.blank? %>
-            <h3><strong> <%= @bp.date %> at <%= @bp.time %> </h3></strong>
+            <h3><strong> <%= Time.strptime("#{@bp.date}", "%Y-%m-%d").strftime("%m/%d/%Y") %> at <%= Time.strptime("#{@bp.time}", "%H:%M").strftime("%I:%M %p") %> </h3></strong>
             <% end %>
             <h4><a href='/bloodpressurereadings/<%= @bp.id %>/edit'>Edit BP Reading</a></h4><br>
         <% if !@bp.systolic_reading.blank? || !@bp.diastolic_reading.blank? %> 

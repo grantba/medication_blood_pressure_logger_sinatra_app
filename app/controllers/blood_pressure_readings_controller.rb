@@ -35,10 +35,15 @@ class BloodPressureReadingsController < ApplicationController
         user = User.find_by_matched_slug(params[:slug])
         if logged_in?
             if user && user.id == current_user.id 
-                bp = BloodPressureReading.new(params.except("slug"))
-                bp.user_id = current_user.id 
-                bp.save
-                redirect to "/bloodpressurereadings/#{bp.id}"
+                if params[:date].empty? || params[:time].empty? || params[:systolic_reading].empty? || params[:diastolic_reading].empty?
+                    flash[:alert] = "The date, time, systolic reading, and diastolic reading fields can not be empty. Please try again."
+                    redirect to "/bloodpressurereadings/#{current_user.username}/new"
+                else
+                    bp = BloodPressureReading.new(params.except("slug"))
+                    bp.user_id = current_user.id 
+                    bp.save
+                    redirect to "/bloodpressurereadings/#{bp.id}"
+                end
             else
                 flash[:alert] = "You can only add a new blood pressure reading to your own blood pressure reading log."
                 redirect to "/bloodpressurereadings/#{current_user.username}/all"

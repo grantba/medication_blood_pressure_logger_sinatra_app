@@ -20,7 +20,7 @@ Specs:
  ☑ Ensure that users can't modify content created by other users
  I have conditinals in all of my routes to prevent the user from altering anyone else's data but their own.
  ☑ Include user input validations
- I have the phone number fields formatted to be entered in a specific way. If not, the user will be notified. Email addresses are also validated to fit a specific format.
+ I have the phone number fields formatted to be entered in a specific way. If not, the user will be notified. Email addresses are also validated to fit a specific format. For each model, there are required fields so that an object can not be submitted to the database with all nil fields. If those required fields are submitted without any information, the user will receive a flash message alerting them that those are required fields. A new object will only be created and persisted to the database if all required fields are completed.
  ☑ BONUS - not required - Display validation failures to user with error message (example form URL e.g. /posts/new)
  I used flash messages in my application for various (error, notice, etc) messages. For example, my user can not delete any data from the database on the first attempt. They will receive a flash message first asking if they are sure they want to delete the selected object. If submitted a second time, then on the second attempt for that specific object, it will then be deleted from the database.
 ☑ Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code.

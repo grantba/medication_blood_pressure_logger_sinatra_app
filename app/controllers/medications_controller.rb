@@ -35,10 +35,15 @@ class MedicationsController < ApplicationController
         user = User.find_by_matched_slug(params[:slug])
         if logged_in?
             if user && user.id == current_user.id 
-                med = Medication.new(params.except("slug"))
-                med.user_id = current_user.id 
-                med.save
-                redirect to "/medications/#{med.id}"
+                if params[:name].empty? || params[:dose].empty? || params[:time_to_be_taken].empty?
+                    flash[:alert] = "The medication name, dose, and time(s) to be taken fields can not be empty. Please try again."
+                    redirect to "/medications/#{current_user.username}/new"
+                else
+                    med = Medication.new(params.except("slug"))
+                    med.user_id = current_user.id 
+                    med.save
+                    redirect to "/medications/#{med.id}"
+                end
             else
                 flash[:alert] = "You can only add new medications to your own medication log."
                 redirect to "/medications/#{current_user.username}/all"

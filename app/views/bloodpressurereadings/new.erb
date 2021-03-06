@@ -1,8 +1,8 @@
 <form method="post" action="/bloodpressurereadings/<%= @user.username %>">
-<p><label for="date">Date: </label><input type="date" name="date"></p>
-<p><label for="time">Time: </label><input type="time" name="time"></p>
-<p><label for="systolic_reading">Systolic Reading: </label><input type="text" name="systolic_reading" placeholder=" ***Top Number***"></p>
-<p><label for="diastolic_reading">Diastolic Reading: </label><input type="text" name="diastolic_reading" placeholder=" ***Bottom Number***"></p>
+<p><label for="date">Date: </label><input type="date" name="date"> *required </p>
+<p><label for="time">Time: </label><input type="time" name="time"> *required</p>
+<p><label for="systolic_reading">Systolic Reading: </label><input type="text" name="systolic_reading" placeholder=" ***Top Number***"> *required</p>
+<p><label for="diastolic_reading">Diastolic Reading: </label><input type="text" name="diastolic_reading" placeholder=" ***Bottom Number***"> *required</p>
 <p><label for="pulse">Pulse: </label><input type="text" name="pulse" placeholder=" ***Beats per Minute***"></p> 
 <p><label for="device_used">Device Used: </label><input type="text" name="device_used"></p> 
 <p><label for="site_used">Site Used: </label><input type="text" name="site_used"></p>

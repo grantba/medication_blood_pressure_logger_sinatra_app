@@ -39,6 +39,10 @@ class PharmaciesController < ApplicationController
                 if pharmacy = Pharmacy.find_by(id: params[:pharmacy_id])
                     @med.pharmacy_id = pharmacy.id
                     @med.save
+
+                elsif params[:name].empty? || params[:phone_number].empty?
+                    flash[:alert] = "The name and phone number fields can not be empty. Please try again."
+                    redirect to "/pharmacies/#{params[:id]}/new" 
                 else
                     pharmacy = Pharmacy.new(params.except("id", "pharmacy_id"))
                     pharmacy.user_id = current_user.id
