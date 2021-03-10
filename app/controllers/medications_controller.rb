@@ -57,7 +57,7 @@ class MedicationsController < ApplicationController
     get "/medications/:id/edit" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
-            if current_user && @med.user_id == current_user.id
+            if @med && @med.user_id == current_user.id
                 erb :"/medications/edit"
             else
                 flash[:alert] = "You can only edit the medications that belong to you."
@@ -71,7 +71,7 @@ class MedicationsController < ApplicationController
 
     patch "/medications/:id" do
         med = Medication.find_by(id: params[:id])
-        if current_user && med.user_id == current_user.id 
+        if med && med.user_id == current_user.id 
             med.side_effect = params[:side_effects] unless params[:side_effects].blank?
             med.notes = params[:notes] unless params[:notes].blank?
             med.save 
@@ -87,11 +87,11 @@ class MedicationsController < ApplicationController
     get "/medications/:id" do
         if logged_in?
             @med = Medication.find_by(id: params[:id])
-            if current_user && @med.user_id == current_user.id 
+            if @med && @med.user_id == current_user.id 
                 erb :"/medications/show"
             else
                 flash[:alert] = "You can only view the medications that belong to you."
-                redirect to "/users/#{current_user.username}"
+                redirect to "/medications/#{current_user.username}/all"
             end
         else
             flash[:alert] = "You must be logged in to view your medications."
@@ -104,11 +104,11 @@ class MedicationsController < ApplicationController
         session[med: number] = 1 unless session[med: number] == 2
         if logged_in?
             med = Medication.find_by(id: params[:id])
-            if current_user && med.user_id == current_user.id && session[med: number] == 1
+            if med && med.user_id == current_user.id && session[med: number] == 1
             session[med: number] = 2
                 flash[:warning] = "Are you sure you want to delete #{med.name} from your account?" 
                 redirect to "/medications/#{current_user.username}/all"
-            elsif current_user && med.user_id == current_user.id && session[med: number] == 2
+            elsif med && med.user_id == current_user.id && session[med: number] == 2
                 med.destroy
                 flash[:notice] = "#{med.name} has been deleted from your account."
                 redirect to "/medications/#{current_user.username}/all"
